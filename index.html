@@ -176,6 +176,7 @@ margin-bottom: 1em;
       <button id="watch">Watch</button>
     </div>
     <div id="view">
+
       <div class="doc" id="topbar">
           <a href='#' onclick="toggle('story')">Story</a> 
         | <a href='#' onclick="toggle('download')">Download</a>
@@ -185,6 +186,7 @@ margin-bottom: 1em;
         | <a href='#' onclick="toggle('about')")>About</a>
         <!-- | <a href='#' onclick="toggle('how-it-works')">How it works</a> -->
       </div>
+
       <div class="doc" id="story" style="display: block;">
         <h1>ConnTroll</h1>
         <h2># What is ConnTroll?</h2>
@@ -202,10 +204,12 @@ margin-bottom: 1em;
         <h2># How do I use it?</h2>
         <p>See the #Examples section</p>
       </div>
+
       <div class="doc" id="download">
         <h2>Download</h2>
         <p>find below a container named download@conntroll</p>
       </div>
+
       <div class="doc" id="examples">
         <h2>Examples</h2>
         <h3>Run inside a container</h3>
@@ -221,10 +225,12 @@ $ docker run conntroll/agent:debian
 $ docker run -v /dir/to/share:/public -w /public conntroll/agent 
 </pre>
       </div>
+
       <div class="doc" id="how-it-works">
         <h2>How it works</h2>
         <p>There are three parties involved: hub, agent, and client</p>
       </div>
+
       <div class="doc" id="meaning-of-colors">
         <h2>Meaning of colors</h2>
 	<fieldset>
@@ -239,13 +245,17 @@ $ docker run -v /dir/to/share:/public -w /public conntroll/agent
 	  </div>
 	</fieldset>
       </div>
+
       <div class="doc" id="about">
         <h2>About</h2>
         <p>Author: btwiuse</p>
         <p>GitHub: https://github.com/btwiuse/conntroll</p>
       </div>
+
       <div class="doc" id="stats"></div>
+
       <div id="agents"></div>
+
     </div>
   </div>
  </body>

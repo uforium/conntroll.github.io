@@ -1,5 +1,10 @@
 function autoAPIURL() {
   let inputElem : HTMLInputElement = <HTMLInputElement>document.getElementById("api");
+  let origin = window.location.origin;
+  if (origin == "https://conntroll.github.io") {
+    inputElem.value = "https://conntroll.libredot.com";
+    return;
+  }
   inputElem.value = window.location.origin;
 }
 
@@ -218,6 +223,7 @@ function newSummaryWsConnectedMessage() : HTMLDivElement {
 
 function pushSummary(child : HTMLDivElement){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("stats");
+  console.log(summaryElem);
   while (summaryElem.childNodes.length >= 3){
     summaryElem.removeChild(summaryElem.lastChild);
   }
