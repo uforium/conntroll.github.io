@@ -254,11 +254,7 @@ function agentsWatch(){
     setTimeout(function() { agentsWatch() }, 5);
   }
   ws.addEventListener('message', function (event:MessageEvent) {
-    let agents : Agent[] = [];
-    let jsonArray = JSON.parse(event.data);
-    for(let elem of jsonArray){
-      agents.push(createAgent(elem));
-    }
+    let agents : Agent[] = JSON.parse(event.data);
     updateAgents(agents);
     pushSummary(newSummaryMessage(agents.length));
   });
