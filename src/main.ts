@@ -260,6 +260,21 @@ function agentsWatch(){
   });
 }
 
+function saveAgents(val: string){
+  let key : string = "agents";
+  window.localStorage.setItem(key, val);
+}
+
+function loadAgents(){
+  var key : string = "agents";
+  var val : string = window.localStorage.getItem(key);
+  if (val.length == 0) {
+    return
+  }
+  let agents : Agent[] = JSON.parse(val);
+  updateAgents(agents);
+}
+
 function observeAgents(){
   var target = document.getElementById("agents");
 
