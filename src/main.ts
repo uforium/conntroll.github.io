@@ -27,23 +27,6 @@ function getAPIURL() : URL {
   return url;
 }
 
-async function apiAgents() : Promise<Agent[]>{
-  let path = "/api/agents/";
-  let au = getAPIURL();
-  let url = au.protocol + "//" + au.host + path;
-  let headers = new Headers();
-  let agents : Agent[] = [];
-  if (au.username != "" && au.password != "") {
-    headers.append('Authorization', 'Basic ' + btoa(au.username + ':' + au.password));
-  }
-  const resp = await fetch(url, {headers: headers});
-  const jsonArray = await resp.json();
-  for(let elem of jsonArray){
-    agents.push(createAgent(elem));
-  }
-  return agents;
-}
-
 function createAgent(agent : any) : Agent{
   let agentJSON : Agent = {
     id: agent.id,
@@ -212,7 +195,12 @@ function updateAgents(agents : Agent[]){
       agentsContainerElem.removeChild(child);
     }
   }
+  updateCount++;
 }
+
+// when updateCount > 3, we assume the output is stable
+// it's time to watch updates
+var updateCount : number = 0;
 
 function newSummaryCloseEvent(e : CloseEvent) : HTMLDivElement {
   let itemElem = document.createElement('div');
@@ -276,9 +264,45 @@ function agentsWatch(){
   });
 }
 
+function observeAgents(){
+  var target = document.getElementById("agents");
+
+  // Create an observer instance
+  var observer = new MutationObserver(function( mutations ) {
+    mutations.forEach(function( mutation ) {
+      var newNodes = mutation.addedNodes;
+      var removedNodes = mutation.removedNodes;
+      if (Notification.permission == "granted" && (updateCount > 3)) {
+	if( newNodes.length != 0) {
+	  var notification = new Notification("added" + (new Date()));
+	  console.log(newNodes, notification);
+	}
+	if( removedNodes.length != 0 ) {
+	  var notification = new Notification("removed" + (new Date()));
+	  console.log(removedNodes, notification);
+	}
+      }
+    });
+  });
+
+  // Configuration of the observer:
+  var config = {
+    attributes: true,
+    childList: true,
+    characterData: true
+  };
+
+  // Pass in the target node, as well as the observer options
+  observer.observe(target, config);
+
+  // Later, you can stop observing
+  // observer.disconnect();
+}
+
 function main() {
   autoAPIURL();
   agentsWatch();
+  observeAgents();
 }
 
 window.onload = main;
