@@ -135,9 +135,6 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   let ipElem = document.createElement('a');
 
   userElem.innerHTML = agent.username + '@' + agent.hostname + ' ';
-  if (agent.auth) {
-    userElem.setAttribute('class', 'auth');
-  }
   pathElem.innerHTML = agent.pwd;
   pathElem.setAttribute('target', '_blank');
   pathElem.setAttribute('href', url+'/rootfs'+agent.pwd);
@@ -168,6 +165,12 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   subbarElem.appendChild(connectElem);
 
   leftSideElem.setAttribute('class', 'agent-left');
+  if (agent.auth) {
+    leftSideElem.className += ' auth';
+  } else {
+    leftSideElem.className += ' noauth';
+  }
+  console.log(leftSideElem.className)
   leftSideElem.innerHTML = '*';
   if (agent.distro) {
     let dist = agent.distro
