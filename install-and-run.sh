@@ -22,7 +22,7 @@ install(){
 }
 
 main(){
-  install && /bin/agent
+  install && /bin/agent "${@}"
 }
 
 main "${@}"
