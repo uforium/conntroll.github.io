@@ -35,5 +35,11 @@ https://k0s.io:443 {
   # deny access to private paths
   status 403 /.git/
 
+  redir 301 {
+    /css /1.17/css/
+    /docs /1.17/docs/
+    /images /1.17/images/
+  }
+
   root .
 }
