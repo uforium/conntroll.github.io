@@ -54,3 +54,30 @@ if (tab) {
 });
 
 document.getElementById("a-story-examples").onclick=(()=>toggle("examples"));
+
+function getWebClientVersion(){
+  fetch("https://k0s.io/version")
+    .then((response)=>{
+      return response.json();
+    })
+    .then((json)=>{
+      var clientCommit = document.getElementById("client-commit");
+      clientCommit.innerHTML = json.GitCommit;
+      clientCommit.href = 'https://github.com/conntroll/conntroll.github.io/tree/' + json.GitCommit;
+    });
+}
+
+function getHubVersion(){
+  fetch("https://hub.k0s.io/version")
+    .then((response)=>{
+      return response.json();
+    })
+    .then((json)=>{
+      var clientCommit = document.getElementById("hub-commit");
+      clientCommit.innerHTML = json.GitCommit;
+      clientCommit.href = 'https://github.com/btwiuse/conntroll/tree/' + json.GitCommit;
+    });
+}
+
+getWebClientVersion();
+getHubVersion();

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 commit(){
   # git rev-parse --short HEAD
   git rev-parse HEAD
@@ -57,9 +55,9 @@ json(){
   "GitBranch": "%s",
   "GitSummary": "%s",
   "BuildDate": "%s",
-  "Version": "%s",
+  "Version": "%s"
 }\n' "$(commit)" "$(state)" "$(branch)" "$(summary)" "$(builddate)" "$(version)"
 }
 
 #ldflags
-json > version
+json | tee /dev/stderr | cat > version
