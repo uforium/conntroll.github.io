@@ -1,14 +1,8 @@
-@media (max-width: 680pt) {
-    body {
-        font-size:      calc( 100vw / 56 );
-    }
-}
-
     body {
       background: aquamarine;
       margin: 0px auto;
-      max-width: fit-content;
-      min-width: fit-content;
+      max-width: 1200px;
+      min-width: 600px;
       // width: fit-content;
     }
     hr {
@@ -17,7 +11,7 @@
     }
     h2 {
       margin-top: 1em;
-      margin-bottom: 1em;
+      margin-bottom: 0.5em;
     }
     pre {
       overflow-wrap: break-word;
@@ -56,14 +50,16 @@ a.tag {
 }
 
 #cover {
- width: 100%;
- max-width: 800px;
+ // width: 100%;
+ width: auto;
+ // max-height:300px;
+ // max-width: 600px;
 }
 
     #main {
       // min-width: 600px;
       // max-width: 800px;
-      width: 800px;
+      // width: 800px;
     }
     #view {
       position: relative;

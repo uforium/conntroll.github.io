@@ -8,11 +8,19 @@ function toggle(id){
   } else {
     elem.style.display = "";
   }
-  ["story", "download", "examples", "meaning-of-colors", "stats", "about"].forEach((e)=>{ // "how-it-works", 
+  ["story", "download", "examples", "how-it-works", "meaning-of-colors", "stats", "about"].forEach((e)=>{
     if (e != id) {
       document.getElementById(e).style.display="";
     }
   });
+  setTimeout(()=>{
+    window.location.hash = id+'.';
+    //window.scrollTo(0, 0);
+  }, 5);
+  if (typeof(ga) != 'undefined') {
+    ga('set', 'page', '/#'+id);
+    ga('send', 'pageview');
+  }
 }
 // https://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
 function setCookie(name,value,days) {
@@ -41,7 +49,7 @@ var tab = getCookie("prevtab");
 if (tab) {
   toggle(tab)
 }
-["story", "download", "examples", "meaning-of-colors", "stats", "about"].forEach((e)=>{ // "how-it-works",
+["story", "download", "examples", "how-it-works", "meaning-of-colors", "stats", "about"].forEach((e)=>{
   document.getElementById("a-"+e).onclick=(()=>toggle(e));
 });
 

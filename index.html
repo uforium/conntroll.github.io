@@ -4,6 +4,15 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <link href="reset.css" rel="stylesheet" type="text/css" />
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137403717-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-137403717-1');
+  </script>
   <script src="dist/bundle.js"></script>
  </head>
  <body>
@@ -20,10 +29,11 @@
           <a id="a-story" href='#'>Story</a> 
         | <a id="a-download" href='#'>Download</a>
         | <a id="a-examples" href='#'>Examples</a>
-        | <a id="a-meaning-of-colors" href='#'">Meaning of colors</a> 
+        | <a id="a-how-it-works" href='#'>How it works</a>
+        | <a id="a-meaning-of-colors" href='#'>Meanings of colors</a> 
+        | <a id="a-metrics" target="_blank" href='/grafana/')>Metrics</a>
         | <a id="a-stats" href='#')>Stats</a>
         | <a id="a-about" href='#')>About</a>
-        <!-- | <a id="a-how-it-works" href='#'>How it works</a> -->
       </div>
 
       <div class="doc" id="story" style="display: block;">
@@ -34,7 +44,7 @@
         <h2>What the ...?</h2>
         <p>k0s is to k8s what JavaScript is to Java. I'm sorry to disappoint you but it is NOT "Yet Another Kubernetes Distro". </p>
 	<img src="cover.png" id="cover">
-	<p>It is a tool codenamed conntroll, initially developed to control my ThinkPads at home from work, which helped a lot until recently the company I worked for, among many others, went out of business during the trade war. Consequently I was made out of work, which in turn made this tool less useful to me than to other people. Meanwhile I had several spare domain names at my disposal. <a href="#">k0s.io</a> was one of them. I registered it around the time Rancher announced their lightweight k8s distribution - <a target="_blank" href="https://k3s.io">k3s</a>, a very cool product. I've always been wanting to build something similar. That's the brief background why I decide to rebrand and publish it.</p>
+	<p>It is a tool codenamed "conntroll", initially developed to control my ThinkPads at home from work, which helped a lot until recently the company I worked for, among many others, went out of business during the trade war. Consequently I was made out of work, which in turn made this tool less useful to me than to other people. Meanwhile I had several spare domain names at my disposal. <a href="#">k0s.io</a> was one of them. I registered it around the time Rancher announced their lightweight k8s distribution - <a target="_blank" href="https://k3s.io">k3s</a>, a very cool product. I've always been wanting to build something similar. That's the brief background why I decide to rebrand and publish it.</p>
 
         <hr>
 
@@ -47,7 +57,7 @@
 	</ul>
 	I plan to expand the feature set a little bit more and here are my goals:
 	<ul>
-	  <li>collect node metrics (DONE, for details click <a target="_blank" href="./grafana/">here</a>)</li>
+	  <li>collect node metrics (DONE, for details click <a target="_blank" href="./grafana/">#Metrics</a>)</li>
 	  <li>convert this web page into a chrome extension (WIP, download preview <a target="_blank" href="./chrome-bundle.zip" a>here</a>)</li>
 	  <li>implement bazel's <a target="_blank" href="https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/execution/v2/remote_execution.proto">Remote Cache / Remote Execution API</a></li>
           <li>node-to-node communication</li>
@@ -61,9 +71,10 @@
       </div>
 
       <div class="doc" id="download">
-        <h2>Download</h2>
+        <h1>Download / Build and Install</h1>
         <!--<p>find below a container named download@conntroll</p>-->
-        <p>download latest binary release (updated 2020-01-11):</p>
+        <h2>Binary Releases</h2>
+        <p>Manually download latest binary release (updated 2020-01-11), place it in your PATH:</p>
 	<ul>
           <li><a href="https://conntroll.github.io/releases/latest/darwin/amd64/conntroll">darwin/amd64</a></li>
           <li><a href="https://conntroll.github.io/releases/latest/linux/amd64/conntroll">linux/amd64</a></li>
@@ -71,10 +82,18 @@
           <li><a href="https://conntroll.github.io/releases/latest/linux/arm/conntroll">linux/arm</a></li>
           <li><a href="https://conntroll.github.io/releases/latest/linux/arm64/conntroll">linux/arm64</a></li>
 	</ul>
+	<pre>$ ln -vf /bin/conntroll /bin/agent</pre>
+        <p>or pipe the install script to your shell:</p>
+	<pre>$ curl -sL https://k0s.io/install.sh | sh</pre>
 
+        <h2>Install from source code</h2>
+        <pre>$ git clone https://github.com/btwiuse/conntroll && cd conntroll
+$ make
+$ sudo make install</pre>
         <p>or install through go-get:</p>
         <pre>$ go get -u k0s.io/conntroll</pre>
 
+        <h2>Docker</h2>
         <p>Alternatively you can pull the latest docker image via:</p>
         <pre>$ docker run conntroll/agent</pre>
         <p>There's a list of distro flavors for you to choose from:</p>
@@ -90,20 +109,58 @@ $ docker run conntroll/agent:debian
       </div>
 
       <div class="doc" id="examples">
-        <h2>Examples</h2>
-        <h3>Run inside a container</h3>
+        <h1>Examples</h1>
+	<br/>
+	<p>Running the agent directly on your host environment is considered insecure, unless you know what you are doing. Here I will only provide examples of running agent in official docker container.</p>
+
+        <h2>Hello world</h2>
 	<pre>
-$ docker run conntroll/agent 
+$ docker run conntroll/agent:alpine -tags hello-world
 </pre>
+        <p>Wait a second and your container will appear at the top of the agent list below. Click connect to enter your container's shell.</p>
+
+        <h2>Read-only mode</h2>
+	<p>If you want to block input and make the terminal read-only, add the -ro flag:</p>
+	<pre>
+$ docker run conntroll/agent:arch -ro -cmd htop -tags i-am-read-only
+</pre>
+
+        <h2>Running custom command</h2>
+	<p>You may have guessed the -cmd flag can be used to specify the command to execute when you enter the terminal. For example, we can start a new agent from the parent agent:</p>
+	<pre>
+$ docker run conntroll/agent:arch -tags read-only,parent -ro -cmd 'agent -tags read-write,child -cmd bash'
+</pre>
+	<p>This way, a child is created each time you connect to the parent terminal. When you kill the parent, all children will disconnect too.</p>
+	
+        <h2>Expose working directory</h2>
+	<p>By default, agent exposes the current working directory. To change this, simply start agent in a different directory:</p>
+	<pre>
+$ docker run -w /my/working/directory conntroll/agent:arch -tags custom-working-directory
+</pre>
+	<p>Current implementation always allows access to files outside the working directory. This behavior may change in the future.</p>
       </div>
 
       <div class="doc" id="how-it-works">
-        <h2>How it works</h2>
-        <p>There are three parties involved: hub, agent, and client</p>
+        <h1>How it works</h1>
+	<br>
+	<p>In a typical remote terminal session, there are three parties involved: agent, hub and client. </p>
+	<br>
+	<p>There are supposed to be two implementations for client: Browser Client and Cmdline Client. However, at the time of writing only Browser Client is implemented.</p>
+        <h2>Simplified Architecture</h2>
+	<pre>
+TTY Session ----- Node Agent ---\         /--- Browser Client
+                /                \       /
+FTP Session ---/  Node Agent ----- [Hub] ----- Browser Client
+                                 /       \
+TTY Session ----- Node Agent ---/         \--- Cmdline Client
+	</pre>
+	<p>On start, agent connects to hub and adds itself to the hub's agent list, at the same time it spawns a gRPC server in a separate goroutine and starts listening on 'connect' requests from hub. When user initiates the 'connect' request through client, a new websocket connection will be established between client and hub, then hub forwards the request to agent, creating a gRPC streaming tunnel between hub and agent. From this point on, hub starts forwarding data back and forth over the tunnel from/to client to/from agent.</p>
+        <h2>Sequence Diagram</h2>
+	<img src="./sequence-diagram.svg"/>
       </div>
 
       <div class="doc" id="meaning-of-colors">
-        <h2>Meaning of colors</h2>
+        <h1>Meanings of colors</h1>
 	<fieldset>
 	  <legend>Legend</legend>
 	  <div class="foobar">
@@ -118,10 +175,15 @@ $ docker run conntroll/agent
       </div>
 
       <div class="doc" id="about">
-        <h2>About</h2>
+        <h1>About</h1>
+        <p>This site is 100% handcrafted.</p>
+	<p>This page has 0 npm package dependency.</p>
+        <h2>Source codes</h2>
+	<p>Frontend: <a target="_blank" href="https://github.com/conntroll/conntroll.github.io">https://github.com/conntroll/conntroll.github.io</a></p>
+	<p>Backend: <a target="_blank" href="https://github.com/btwiuse/conntroll">https://github.com/btwiuse/conntroll</a></p>
+        <h2>Contact</h2>
         <p>Email: navigaid@gmail.com</p>
         <p>Wechat: navigaid</p>
-        <p>GitHub: https://github.com/btwiuse/conntroll</p>
       </div>
 
       <div class="doc" id="stats"></div>
