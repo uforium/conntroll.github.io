@@ -27,6 +27,10 @@ https://k0s.io:443 {
     # without /prometheus
   }
 
+  proxy /oauth http://127.0.0.1:8002/ {
+    transparent
+  }
+
   log / stdout "[{when}] {user} {remote} {proto} {method} {scheme}://{host}{path} | {hostname} {status} {size}" 
 
   status 200 /ping
