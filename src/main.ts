@@ -34,49 +34,6 @@ async function apiAgents() : Promise<Agent[]>{
   return agents;
 }
 
-var intervalIDs : number[] = [];
-var watchExceptions : TypeError[] = [];
-
-function cancelWatch(){
-  while (intervalIDs.length > 0) {
-    window.clearInterval(intervalIDs.pop());
-  }
-  watchExceptions.length = 0;
-}
-
-function startWatch(){
-  let intervalID = window.setInterval(onListClick, 1000);
-  intervalIDs.push(intervalID);
-}
-
-async function onWatchClick(){
-  if (intervalIDs.length > 0) {
-    cancelWatch();
-    return
-  }
-  startWatch();
-}
-
-async function onListClick(){
-  let agents : Agent[] = []
-  try {
-    // console.log(intervalIDs.length, watchExceptions.length);
-    agents = await apiAgents();
-  } catch (e) {
-    if (intervalIDs.length > 0) {
-      watchExceptions.push(e);
-    }
-    pushSummary(newSummaryException(e));
-    return;
-  } finally {
-    if ((intervalIDs.length > 0) && (watchExceptions.length > 1)) {
-      cancelWatch();
-    }
-  }
-  updateAgents(agents);
-  pushSummary(newSummaryMessage(agents.length));
-}
-
 function createAgent(agent : any) : Agent{
   let agentJSON : Agent = {
     id: agent.id,
@@ -231,6 +188,13 @@ function updateAgents(agents : Agent[]){
   }
 }
 
+function newSummaryCloseEvent(e : CloseEvent) : HTMLDivElement {
+  let itemElem = document.createElement('div');
+  let date = new Date();
+  itemElem.innerHTML = date.toISOString() + ' WebSocket Connection Closed';
+  return itemElem;
+}
+
 function newSummaryException(e : TypeError) : HTMLDivElement {
   let itemElem = document.createElement('div');
   let date = new Date();
@@ -252,7 +216,6 @@ function newSummaryWsConnectedMessage() : HTMLDivElement {
   return itemElem;
 }
 
-// TODO: push to sized queue object
 function pushSummary(child : HTMLDivElement){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
   while (summaryElem.childNodes.length >= 3){
@@ -261,22 +224,29 @@ function pushSummary(child : HTMLDivElement){
   summaryElem.prepend(child);
 }
 
-function main() {
-  autoAPIURL();
-  // let listButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("list");
-  // let watchButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("watch");
-  // listButtonElem.onclick = onListClick;
-  // watchButtonElem.onclick = onWatchClick;
-  onWatchClick();
-  agentsWatch();
-}
-
 function agentsWatch(){
   const url = (window.location.protocol == "https:" ? 'wss://' : 'ws://') + window.location.host + window.location.pathname + 'api/agents/watch';
   var ws = new WebSocket(url);
   ws.onopen = (event) => {
     pushSummary(newSummaryWsConnectedMessage());
   }
+  ws.onclose = (event) => {
+    pushSummary(newSummaryCloseEvent(event));
+  }
+  ws.onmessage = async (event) => {
+    let agents : Agent[] = [];
+    let jsonArray = JSON.parse(await event.data.text());
+    for(let elem of jsonArray){
+      agents.push(createAgent(elem));
+    }
+    updateAgents(agents);
+    pushSummary(newSummaryMessage(agents.length));
+  }
+}
+
+function main() {
+  autoAPIURL();
+  agentsWatch();
 }
 
 window.onload = main;
