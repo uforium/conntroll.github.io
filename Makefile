@@ -1,5 +1,5 @@
 all:
-	webpack
+	./node_modules/.bin/webpack
 
 master:
 	cp dist/bundle.js dist/bundle.js.src
@@ -22,4 +22,4 @@ assets:
 	git commit && git push && git checkout src || git checkout src
 
 chrome:
-	tar c dist/bundle.js manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.tar
+	zip - dist/bundle.js manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.zip
