@@ -125,7 +125,7 @@ a.tag {
       font-size: 11.5pt;
       font-weight: bold;
       line-height: 1.45em;
-      // margin-bottom: 0.55em;
+      margin-bottom: 0.25em;
     }
     .agent-midbar{
       font-family: "Dejavu Sans Mono", "helvetica neue", aria, sans-serif;
@@ -240,7 +240,15 @@ margin-bottom: 1em;
 
       <div class="doc" id="download">
         <h2>Download</h2>
-        <p>find below a container named download@conntroll</p>
+        <!--<p>find below a container named download@conntroll</p>-->
+        <p>latest release (2020-01-01):</p>
+	<ul>
+          <li><a href="https://conntroll.github.io/releases/latest/linux/amd64/agent">linux/amd64</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/linux/386/agent">linux/386</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/darwin/amd64/agent">darwin/amd64</a></li>
+	</ul>
+        <p>alternatively you can pull the docker image:</p>
+        <pre>$ docker run conntroll/agent:latest</pre>
       </div>
 
       <div class="doc" id="examples">
