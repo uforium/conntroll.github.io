@@ -1,9 +1,15 @@
+var defaultAPIHost = "hub.k0s.io";
+var defaultAPI = "https://"+defaultAPIHost;
+var isExtension : boolean = ((<any>window).chrome && (<any>window).chrome.runtime && (<any>window).chrome.runtime.id);
+var isGitHubPage : boolean = (window.location.host == "conntroll.github.io");
+var isK0sio : boolean = (window.location.host.endsWith("k0s.io"));
+var shouldUseDefaultAPI : boolean = isExtension || isGitHubPage || isK0sio;
+
+
 function autoAPIURL() {
   let inputElem : HTMLInputElement = <HTMLInputElement>document.getElementById("api");
-  let isExtension : boolean = ((<any>window).chrome && (<any>window).chrome.runtime && (<any>window).chrome.runtime.id)
-  let isGitHubPage : boolean = (window.location.origin == "https://conntroll.github.io")
-  if (isExtension || isGitHubPage) {
-    inputElem.value = "https://conntroll.libredot.com";
+  if (shouldUseDefaultAPI) {
+    inputElem.value = defaultAPI;
     return;
   }
   inputElem.value = window.location.origin;
@@ -245,11 +251,8 @@ function pushSummary(child : HTMLDivElement){
 }
 
 function agentsWatch(){
-  let isExtension : boolean = ((<any>window).chrome && (<any>window).chrome.runtime && (<any>window).chrome.runtime.id)
-  let isGitHubPage : boolean = (window.location.host == "conntroll.github.io")
-
-  let wsScheme : string = ((window.location.protocol == "https:") || isExtension || isGitHubPage ? 'wss://' : 'ws://')
-  let wsHost : string = ((isGitHubPage || isExtension) ? "conntroll.libredot.com" : window.location.host)
+  let wsScheme : string = ((window.location.protocol == "https:") || shouldUseDefaultAPI ? 'wss://' : 'ws://')
+  let wsHost : string = (shouldUseDefaultAPI ? defaultAPIHost : window.location.host)
   const url = wsScheme + wsHost + '/api/agents/watch';
 
   var ws = new WebSocket(url);
