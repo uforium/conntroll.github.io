@@ -10,3 +10,7 @@ assets:
 	cp dist/bundle.js assets/dist/bundle.js
 	cp index.html assets/
 	assets -d ./assets -package assets -o assets.go -map Assets
+	git checkout assets
+	cp assets.go webui_assets.go
+	git add webui_assets.go
+	git commit
