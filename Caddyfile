@@ -12,11 +12,19 @@ https://k0s.io:443 {
   # sudo ~/go/bin/go-import-redirector -addr :4321 k0s.io/conntroll https://github.com/btwiuse/conntroll
   proxy /conntroll http://127.0.0.1:4321/ {
     # pass 'Host: k0s.io' header to rsc.io/go-import-redirector
-    # transparent
-    header_upstream Host k0s.io
+    transparent
 
     # no need to use without here
     # without /conntroll
+  }
+
+  # grafana
+  proxy /grafana http://127.0.0.1:3000/ {
+  }
+
+  proxy /prometheus http://127.0.0.1:9090/ {
+    transparent
+    # without /prometheus
   }
 
   log / stdout "[{when}] {user} {remote} {proto} {method} {scheme}://{host}{path} | {hostname} {status} {size}" 
