@@ -33,9 +33,7 @@ https://k0s.io:443 {
   status 200 /health
 
   # deny access to private paths
-  rewrite /.git {
-    status 403
-  }
+  status 403 /.git/
 
   root .
 }
