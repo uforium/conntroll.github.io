@@ -5,7 +5,7 @@ master:
 	cp dist/bundle.js dist/bundle.js.src
 	git checkout master
 	mv dist/bundle.js.src dist/bundle.js 
-	git checkout src -- install.sh install-and-run.sh index.html script.js style.css
+	git checkout src -- install.sh install-and-run.sh index.html script.js style.css cover.png
 	git add index.html script.js style.css dist/bundle.js
 	git commit && git push && git checkout src || git checkout src
 
@@ -23,3 +23,4 @@ assets:
 
 chrome:
 	zip - dist/bundle.js reset.css cover.png manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.zip
+	tar c dist/bundle.js reset.css cover.png manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.tar
