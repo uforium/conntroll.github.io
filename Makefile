@@ -5,7 +5,7 @@ master:
 	cp dist/bundle.js dist/bundle.js.src
 	git checkout master
 	mv dist/bundle.js.src dist/bundle.js 
-	git checkout src -- index.html script.js style.css
+	git checkout src -- install.sh install-and-run.sh index.html script.js style.css
 	git add index.html script.js style.css dist/bundle.js
 	git commit && git push && git checkout src || git checkout src
 
