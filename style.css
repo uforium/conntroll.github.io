@@ -1,3 +1,10 @@
+#a-login-div{
+  margin-right: 1em;
+  text-align: right;
+      font-size: 11.5pt;
+      font-weight: bold;
+      font-family: "Dejavu Sans", "helvetica neue", aria, sans-serif;
+}
 .indent {
   margin-left: 1em;
 }
