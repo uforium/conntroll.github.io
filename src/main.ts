@@ -170,7 +170,7 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   } else {
     leftSideElem.className += ' noauth';
   }
-  console.log(leftSideElem.className)
+  // console.log(leftSideElem.className)
   leftSideElem.innerHTML = '*';
   if (agent.distro) {
     let dist = agent.distro
@@ -244,6 +244,13 @@ function newSummaryMessage(i : number) : HTMLDivElement {
   return itemElem;
 }
 
+function newSummaryWsConnectedMessage() : HTMLDivElement {
+  let itemElem = document.createElement('div');
+  let date = new Date();
+  itemElem.innerHTML = date.toISOString() + ' Start Watching Agents';
+  return itemElem;
+}
+
 // TODO: push to sized queue object
 function pushSummary(child : HTMLDivElement){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
@@ -260,6 +267,15 @@ function main() {
   // listButtonElem.onclick = onListClick;
   // watchButtonElem.onclick = onWatchClick;
   onWatchClick();
+  agentsWatch();
+}
+
+function agentsWatch(){
+  const url = (window.location.protocol == "https:" ? 'wss://' : 'ws://') + window.location.host + window.location.pathname + 'api/agents/watch';
+  var ws = new WebSocket(url);
+  ws.onopen = (event) => {
+    pushSummary(newSummaryWsConnectedMessage());
+  }
 }
 
 window.onload = main;
