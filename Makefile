@@ -3,6 +3,7 @@ all:
 	cp dist/bundle.js dist/bundle.js.src
 
 
+.PHONY: assets
 assets:
 	rm -rf assets/
 	mkdir -p assets/dist

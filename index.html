@@ -3,10 +3,34 @@
  <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <script src="dist/bundle.js"></script>
+  <script>
+// function toggleElementVisibilityById(id){
+function toggle(id){
+  elem = document.getElementById(id);
+  disp = elem.style.display;
+  if (disp != "block") {
+    elem.style.display = "block";
+  } else {
+    elem.style.display = "";
+  }
+  ["home", "download", "examples", "how-it-works", "meaning-of-colors", "about"].forEach((e)=>{
+    if (e != id) {
+      document.getElementById(e).style.display="";
+    }
+  });
+}
+  </script>
   <style>
     body {
       margin: 0px;
       background: lightcoral;
+    }
+    hr {
+      border-style: dashed;
+    }
+    pre {
+      overflow-wrap: break-word;
+      overflow: auto;
     }
     div {
       overflow-wrap: break-word;
@@ -16,8 +40,44 @@
       text-decoration: none;
       // color: fuchsia;
     }
+a:link {
+  color: purple;
+}
+
+a:hover {
+  color: fuchsia;
+}
+
+a:active {
+  color: green;
+}
     #main {
       min-width: 300px;
+    }
+    #topbar {
+      display: block;
+    }
+    .doc {
+      display: none;
+      color: grey;
+      text-align: left;
+      font-size: 11.5pt;
+      font-weight: bold;
+      font-family: "Dejavu Sans", "helvetica neue", aria, sans-serif;
+      background: beige;
+      border-width: thin;
+      border-color: black;
+      border-style: solid;
+      border-radius: 1em;
+      margin-left: 1em;
+      margin-right: 1em;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      padding-left: 3em;
+      padding-right: 3em;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      box-shadow: 3px 3px 13px 0px black;
     }
     #summary {
       color: #888;
@@ -34,6 +94,7 @@
       padding-top: 1em;
       padding-bottom: 1em;
       padding-left: 3em;
+      padding-right: 3em;
       margin-top: 1em;
       margin-bottom: 1em;
       box-shadow: 3px 3px 13px 0px black;
@@ -66,7 +127,7 @@
       position: absolute;
       border-color: gray;
       border-right-style: dashed;
-      font-family: "Dejavu Sans";
+      font-family: "Dejavu Sans", "helvetica neue", aria, sans-serif;
       border-width: thin;
       top: 0px;
       bottom: 0px;
@@ -96,6 +157,52 @@
       line-height: 0.85em;
       color: #888;
     }
+    .legend {
+      width: 2em;
+      height: 2em;
+      background: black;
+    }
+
+.foo {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.bar {
+  float: left;
+  // width: 8em;
+  height: 20px;
+  margin: 5px;
+  // border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.badass {
+  background: #bada55;
+}
+
+.secret {
+  background: #5ec2e7;
+}
+
+.foobar {
+  position: relative;
+  min-width: 15em;
+  max-width: 18em;
+  width: 40%;
+  float: left;
+  margin-left: 1em;
+}
+
+fieldset {
+border-style: solid;
+border-radius: 1em;
+border-color: pink;
+margin-bottom: 1em;
+}
+
   </style>
  </head>
  <body>
@@ -106,6 +213,60 @@
       <button id="watch">Watch</button>
     </div>
     <div id="view">
+      <div class="doc" id="topbar">
+          <a href='#' onclick="toggle('home')">Home</a> 
+        | <a href='#' onclick="toggle('download')">Download</a>
+        | <a href='#' onclick="toggle('examples')">Examples</a>
+        | <a href='#' onclick="toggle('how-it-works')">How it works</a>
+        | <a href='#' onclick="toggle('meaning-of-colors')">Meaning of colors</a> 
+        | <a href='#' onclick="toggle('about')")>About</a>
+      </div>
+      <div class="doc" id="home">
+        <h1>conntroll</h1>
+        <p>access your terminal and files behind NAT</p>
+      </div>
+      <div class="doc" id="download">
+        <h2>Download</h2>
+        <p>find below a container named download@conntroll</p>
+      </div>
+      <div class="doc" id="examples">
+        <h2>Examples</h2>
+        <h3>Run inside a container</h3>
+	<pre>
+$ docker run conntroll/agent 
+$ docker run conntroll/agent:arch
+$ docker run conntroll/agent:ubuntu
+$ docker run conntroll/agent:alpine
+$ docker run conntroll/agent:gentoo
+$ docker run conntroll/agent:fedora
+$ docker run conntroll/agent:debian
+
+$ docker run -v /dir/to/share:/public -w /public conntroll/agent 
+</pre>
+      </div>
+      <div class="doc" id="how-it-works">
+        <h2>How it works</h2>
+        <p>There are three parties involved: hub, agent, and client</p>
+      </div>
+      <div class="doc" id="meaning-of-colors">
+        <h2>Meaning of colors</h2>
+	<fieldset>
+	  <legend>Legend</legend>
+	  <div class="foobar">
+	    <div class="foo secret"></div>
+	    <label class="bar" for="mothman"> #5EC2E7 Basic Auth</label>
+	  </div>
+	  <div class="foobar">
+	    <div class="foo badass"></div>
+	    <label class="bar" for="sasquatch"> #BADA55 No Auth</label>
+	  </div>
+	</fieldset>
+      </div>
+      <div class="doc" id="about">
+        <h2>About</h2>
+        <p>Author: btwiuse</p>
+        <p>GitHub: https://github.com/btwiuse/conntroll</p>
+      </div>
       <div id="agents"></div>
       <div id="summary"></div>
     </div>
