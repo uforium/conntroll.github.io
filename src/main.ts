@@ -46,6 +46,7 @@ function createAgent(agent : any) : Agent{
     pwd: agent.pwd,
     arch: agent.arch,
     auth: agent.auth,
+    tags: agent.tags,
     username: agent.username,
     hostname: agent.hostname,
     connected: agent.connected,
@@ -65,6 +66,7 @@ interface Agent {
   pwd : string;
   arch : string;
   auth : boolean;
+  tags : string[];
   username : string;
   hostname : string;
   connected: number;
@@ -83,11 +85,13 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   let leftSideElem = document.createElement('div');
   let rightSideElem = document.createElement('div');
   let topbarElem = document.createElement('div');
+  let midbarElem = document.createElement('div');
   let userElem = document.createElement('a');
   let pathElem = document.createElement('a');
   let dollarElem = document.createElement('a');
   let userSpanElem = document.createElement('span');
   let pathSpanElem = document.createElement('span');
+  let tagsSpanElem = document.createElement('span');
   let dollarSpanElem = document.createElement('span');
   let subbarElem = document.createElement('div');
   let connectElem = document.createElement('a');
@@ -95,14 +99,22 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   let ipElem = document.createElement('a');
 
   userElem.innerHTML = agent.username + '@' + agent.hostname + ' ';
-  pathElem.innerHTML = agent.pwd;
+  pathElem.innerHTML = ' ' + agent.pwd;
   pathElem.setAttribute('target', '_blank');
   pathElem.setAttribute('href', url+'/rootfs'+agent.pwd);
-  dollarElem.innerHTML = ' ~';
+  dollarElem.innerHTML = ' ~ ';
   dollarElem.setAttribute('target', '_blank');
   dollarElem.setAttribute('href', url+'/rootfs/home/'+agent.username);
   userSpanElem.appendChild(userElem);
   pathSpanElem.appendChild(pathElem);
+
+  for (let tag of agent.tags) {
+    let tagElem = document.createElement('a');
+    tagElem.innerHTML = tag;
+    tagElem.setAttribute('class', 'tag');
+    tagsSpanElem.appendChild(tagElem);
+  }
+
   dollarSpanElem.appendChild(dollarElem);
 
   ipElem.innerHTML = agent.ip;
@@ -115,8 +127,11 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
 
   topbarElem.setAttribute('class', 'agent-topbar');
   topbarElem.appendChild(userSpanElem);
-  topbarElem.appendChild(pathSpanElem);
-  topbarElem.appendChild(dollarSpanElem);
+  topbarElem.appendChild(tagsSpanElem);
+
+  midbarElem.setAttribute('class', 'agent-midbar');
+  midbarElem.appendChild(pathSpanElem);
+  midbarElem.appendChild(dollarSpanElem);
 
   subbarElem.setAttribute('class', 'agent-subbar');
   subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | " + agent.name + " | ";
@@ -139,6 +154,7 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
 
   rightSideElem.setAttribute('class', 'agent-right');
   rightSideElem.appendChild(topbarElem);
+  rightSideElem.appendChild(midbarElem);
   rightSideElem.appendChild(subbarElem);
 
   agentElem.setAttribute("class", "agent");

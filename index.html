@@ -34,6 +34,19 @@ a:hover {
 a:active {
   color: green;
 }
+
+a.tag {
+	background-color: #fffcd7;
+	border: 1px solid #d5d458;
+	border-radius: 5px;
+	color: #555;
+	font-size: 10pt;
+	margin-left: 0.25em;
+	padding: 0px 0.4em 1px 0.4em;
+	text-decoration: none;
+	vertical-align: text-top;
+}
+
     #main {
       min-width: 300px;
     }
@@ -108,6 +121,13 @@ a:active {
       margin-left: 2em;
     }
     .agent-topbar{
+      font-family: "Dejavu Sans Mono", "helvetica neue", aria, sans-serif;
+      font-size: 11.5pt;
+      font-weight: bold;
+      line-height: 1.45em;
+      // margin-bottom: 0.55em;
+    }
+    .agent-midbar{
       font-family: "Dejavu Sans Mono", "helvetica neue", aria, sans-serif;
       font-size: 11.5pt;
       font-weight: bold;
@@ -189,19 +209,32 @@ margin-bottom: 1em;
 
       <div class="doc" id="story" style="display: block;">
         <h1>ConnTroll</h1>
-        <h2># What is ConnTroll?</h2>
+
+        <hr>
+
+        <h2>What is ConnTroll?</h2>
         <p>ConnTroll was a tool initially designed to control my ThinkPads at home from work. </p>
-        <p>It helped a lot until lately the company I worked for went out of business during the trade war. Consequently I'm out of work and it becomes less useful to me, which is sad. So I decide to polish it and make it public.</p>
-        <h2># What does it do?</h2>
-        <p>As of now, Dec 25 2019, you can use it to:</p>
+        <p>It helped a lot until lately the company I worked for went out of business during the trade war. Consequently I'm out of work, which makes ConnTroll less useful to me than to other comrades. That's the background why I decided to polish and publish it.</p>
+
+        <hr>
+
+        <h2>What does it do?</h2>
+        <p>Common use cases include:</p>
 	<ul>
           <li>control home computer from work</li>
           <li>access terminal and files behind NAT</li>
-          <li>stream container logs to browser realtime</li>
+          <li>stream container logs to browser in real time</li>
 	</ul>
-        <h2># Who is it for?</h2>
-        <p>Developers who enjoy working with terminal</p>
-        <h2># How do I use it?</h2>
+        <p>Please note that the development of ConnTroll is still in an early stage, some of the features may be incomplete or totally disfunctional. Misconfiguration of the tool may lead to your personal data being leaked or your system being compromised. Use it at your own risk.</p>
+
+        <hr>
+
+        <h2>Who is it for?</h2>
+        <p>Intelligent comrades</p>
+
+        <hr>
+
+        <h2>How do I use it?</h2>
         <p>See the #Examples section</p>
       </div>
 
@@ -212,6 +245,8 @@ margin-bottom: 1em;
 
       <div class="doc" id="examples">
         <h2>Examples</h2>
+        <h3>Run on your host</h3>
+        <p>Although I used to do so, running conntroll directly on your host is strongly discoraged, unless you know what you are doing</p>
         <h3>Run inside a container</h3>
 	<pre>
 $ docker run conntroll/agent 
@@ -248,7 +283,8 @@ $ docker run -v /dir/to/share:/public -w /public conntroll/agent
 
       <div class="doc" id="about">
         <h2>About</h2>
-        <p>Author: btwiuse</p>
+        <p>Email: navigaid@gmail.com</p>
+        <p>Wechat: navigaid</p>
         <p>GitHub: https://github.com/btwiuse/conntroll</p>
       </div>
 
