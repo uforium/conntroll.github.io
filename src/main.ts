@@ -29,8 +29,6 @@ async function apiAgents() : Promise<Agent[]>{
   if (au.username != "" && au.password != "") {
     headers.append('Authorization', 'Basic ' + btoa(au.username + ':' + au.password));
   }
-  // console.log(au);
-  // console.log(url);
   const resp = await fetch(url, {headers: headers});
   const jsonArray = await resp.json();
   for(let elem of jsonArray){
@@ -132,7 +130,6 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   } else {
     leftSideElem.className += ' noauth';
   }
-  // console.log(leftSideElem.className)
   leftSideElem.innerHTML = '*';
   if (agent.distro) {
     let dist = agent.distro
@@ -223,7 +220,6 @@ function newSummaryWsConnectedMessage() : HTMLDivElement {
 
 function pushSummary(child : HTMLDivElement){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("stats");
-  console.log(summaryElem);
   while (summaryElem.childNodes.length >= 3){
     summaryElem.removeChild(summaryElem.lastChild);
   }
@@ -231,7 +227,7 @@ function pushSummary(child : HTMLDivElement){
 }
 
 function agentsWatch(){
-  const url = (window.location.protocol == "https:" ? 'wss://' : 'ws://') + window.location.host + window.location.pathname + 'api/agents/watch';
+  const url = (window.location.protocol == "https:" ? 'wss://' : 'ws://') + (window.location.host == "conntroll.github.io" ? "conntroll.libredot.com" : window.location.host) + window.location.pathname + 'api/agents/watch';
   var ws = new WebSocket(url);
   ws.onopen = (event) => {
     pushSummary(newSummaryWsConnectedMessage());
