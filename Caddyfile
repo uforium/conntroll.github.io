@@ -6,10 +6,23 @@
   }
 }
 
-:443 {
-  tls /home/aaron/iptables/etc/letsencrypt/live/k0s.io/fullchain.pem /home/aaron/iptables/etc/letsencrypt/live/k0s.io/privkey.pem
+https://k0s.io:443 {
+  tls /home/aaron/etc/letsencrypt/live/k0s.io/fullchain.pem /home/aaron/etc/letsencrypt/live/k0s.io/privkey.pem
+
+  # sudo ~/go/bin/go-import-redirector -addr :4321 k0s.io/conntroll https://github.com/btwiuse/conntroll
+  proxy /conntroll http://127.0.0.1:4321/ {
+    # pass 'Host: k0s.io' header to rsc.io/go-import-redirector
+    # transparent
+    header_upstream Host k0s.io
+
+    # no need to use without here
+    # without /conntroll
+  }
+
   log / stdout "[{when}] {user} {remote} {proto} {method} {scheme}://{host}{path} | {hostname} {status} {size}" 
+
   status 200 /ping
   status 200 /health
+
   root .
 }
