@@ -78,7 +78,7 @@ async function onListClick(){
 }
 
 function createAgent(agent : any) : Agent{
-  let agentJSON = {
+  let agentJSON : Agent = {
     id: agent.id,
     name: agent.name,
     ip: agent.ip,
@@ -88,14 +88,18 @@ function createAgent(agent : any) : Agent{
     auth: agent.auth,
     username: agent.username,
     hostname: agent.hostname,
-    connected: agent.connected
+    connected: agent.connected,
   };
+  if (agent.distro) {
+    agentJSON.distro = agent.distro;
+  }
   return agentJSON;
 }
 
 interface Agent {
   id : string;
   name : string;
+  distro?: string;
   ip : string;
   os : string;
   pwd : string;
@@ -137,7 +141,7 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   pathElem.innerHTML = agent.pwd;
   pathElem.setAttribute('target', '_blank');
   pathElem.setAttribute('href', url+'/rootfs'+agent.pwd);
-  dollarElem.innerHTML = ' $';
+  dollarElem.innerHTML = ' ~';
   dollarElem.setAttribute('target', '_blank');
   dollarElem.setAttribute('href', url+'/rootfs/home/'+agent.username);
   userSpanElem.appendChild(userElem);
@@ -164,7 +168,12 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   subbarElem.appendChild(connectElem);
 
   leftSideElem.setAttribute('class', 'agent-left');
-  leftSideElem.innerHTML = 'L';
+  leftSideElem.innerHTML = '*';
+  if (agent.distro) {
+    let dist = agent.distro
+    let Dt = dist.slice(0,1).toUpperCase()+dist.slice(1,2);
+    leftSideElem.innerHTML = Dt;
+  }
 
   rightSideElem.setAttribute('class', 'agent-right');
   rightSideElem.appendChild(topbarElem);
