@@ -254,8 +254,10 @@ function agentsWatch(){
     setTimeout(function() { agentsWatch() }, 5);
   }
   ws.addEventListener('message', function (event:MessageEvent) {
-    let agents : Agent[] = JSON.parse(event.data);
+    let data : string = event.data;
+    let agents : Agent[] = JSON.parse(data);
     updateAgents(agents);
+    saveAgents(data);
     pushSummary(newSummaryMessage(agents.length));
   });
 }
@@ -268,7 +270,7 @@ function saveAgents(val: string){
 function loadAgents(){
   var key : string = "agents";
   var val : string = window.localStorage.getItem(key);
-  if (val.length == 0) {
+  if (val == null || val.length == 0) {
     return
   }
   let agents : Agent[] = JSON.parse(val);
@@ -312,6 +314,7 @@ function observeAgents(){
 
 function main() {
   autoAPIURL();
+  loadAgents();
   agentsWatch();
   observeAgents();
 }
