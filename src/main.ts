@@ -218,7 +218,8 @@ function updateAgents(agents : Agent[]){
   for (let agent of agents) {
     if (!existingAgentIDs.has(agent.id)) {
       let childElem : HTMLDivElement = createAgentElem(agent);
-      agentsContainerElem.appendChild(childElem);
+      // agentsContainerElem.appendChild(childElem);
+      agentsContainerElem.insertBefore(childElem, agentsContainerElem.firstChild);
       existingAgentIDs.add(agent.id);
     }
   }
