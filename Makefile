@@ -22,4 +22,4 @@ assets:
 	git commit && git push && git checkout src || git checkout src
 
 chrome:
-	zip - dist/bundle.js manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.zip
+	zip - dist/bundle.js reset.css cover.png manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.zip
