@@ -1,9 +1,23 @@
+@media (max-width: 680pt) {
     body {
-      margin: 0px;
+        font-size:      calc( 100vw / 56 );
+    }
+}
+
+    body {
       background: aquamarine;
+      margin: 0px auto;
+      max-width: fit-content;
+      min-width: fit-content;
+      // width: fit-content;
     }
     hr {
       border-style: dashed;
+      display: none;
+    }
+    h2 {
+      margin-top: 1em;
+      margin-bottom: 1em;
     }
     pre {
       overflow-wrap: break-word;
@@ -41,11 +55,25 @@ a.tag {
 	vertical-align: text-top;
 }
 
+#cover {
+ width: 100%;
+ max-width: 800px;
+}
+
     #main {
-      min-width: 600px;
+      // min-width: 600px;
+      // max-width: 800px;
+      width: 800px;
+    }
+    #view {
+      position: relative;
     }
     #topbar {
       display: block;
+    }
+    #docs{
+      margin-left: 1em;
+      margin-right: 1em;
     }
     .doc {
       display: none;
@@ -59,8 +87,8 @@ a.tag {
       // border-color: black;
       // border-style: solid;
       border-radius: 1em;
-      margin-left: 1em;
-      margin-right: 1em;
+      // margin-left: 1em;
+      // margin-right: 1em;
       padding-top: 1em;
       padding-bottom: 1em;
       padding-left: 3em;

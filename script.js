@@ -44,3 +44,5 @@ if (tab) {
 ["story", "download", "examples", "meaning-of-colors", "stats", "about"].forEach((e)=>{ // "how-it-works",
   document.getElementById("a-"+e).onclick=(()=>toggle(e));
 });
+
+document.getElementById("a-story-examples").onclick=(()=>toggle("examples"));

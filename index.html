@@ -2,6 +2,7 @@
 <html>
  <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="reset.css" rel="stylesheet" type="text/css" />
   <link href="style.css" rel="stylesheet" type="text/css" />
   <script src="dist/bundle.js"></script>
  </head>
@@ -14,6 +15,7 @@
     </div>
     <div id="view">
 
+    <div id="docs">
       <div class="doc" id="topbar">
           <a id="a-story" href='#'>Story</a> 
         | <a id="a-download" href='#'>Download</a>
@@ -25,13 +27,14 @@
       </div>
 
       <div class="doc" id="story" style="display: block;">
-        <h1>ConnTroll</h1>
+        <h1>k0s - aggregate your personal infrastructure</h1>
 
         <hr>
 
-        <h2>What is ConnTroll?</h2>
-        <p>ConnTroll was a tool initially designed to control my ThinkPads at home from work. </p>
-        <p>It helped a lot until lately the company I worked for went out of business during the trade war. Consequently I'm out of work, which makes ConnTroll less useful to me than to other comrades. That's the background why I decided to polish and publish it.</p>
+        <h2>What the ...?</h2>
+        <p>k0s is to k8s what JavaScript is to Java. I'm sorry to disappoint you but it is NOT "Yet Another Kubernetes Distro". </p>
+	<img src="cover.png" id="cover">
+	<p>It is a tool codenamed conntroll, initially developed to control my ThinkPads at home from work, which helped a lot until recently the company I worked for, among many others, went out of business during the trade war. Consequently I was made out of work, which in turn made this tool less useful to me than to other people. Meanwhile I had several spare domain names at my disposal. <a href="#">k0s.io</a> was one of them. I registered it around the time Rancher announced their lightweight k8s distribution - <a target="_blank" href="https://k3s.io">k3s</a>, a very cool product. I've always been wanting to build something similar. That's the brief background why I decide to rebrand and publish it.</p>
 
         <hr>
 
@@ -42,42 +45,55 @@
           <li>access terminal and files behind NAT</li>
           <li>stream container logs to browser in real time</li>
 	</ul>
-        <p>Please note that the development of ConnTroll is still in an early stage, some of the features may be incomplete or totally disfunctional. Misconfiguration of the tool may lead to your personal data being leaked or your system being compromised. Use it at your own risk.</p>
+	I plan to expand the feature set a little bit more and here are my goals:
+	<ul>
+	  <li>collect node metrics (DONE, for details click <a target="_blank" href="./grafana/">here</a>)</li>
+	  <li>convert this web page into a chrome extension (WIP, download preview <a target="_blank" href="https://" a>here</a>)</li>
+	  <li>implement bazel's <a target="_blank" href="https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/execution/v2/remote_execution.proto">Remote Cache / Remote Execution API</a></li>
+          <li>node-to-node communication</li>
+	</ul>
+        <p>Please note that the development of k0s is still in an early stage, some of the features may be incomplete or totally disfunctional. Misconfiguration of the tool may lead to your personal data being leaked or your system being compromised. Use it at your own risk.</p>
 
         <hr>
 
         <h2>How do I use it?</h2>
-        <p>See the #Examples section</p>
+	<p>See the <a id="a-story-examples" href="#">#Examples</a> section</p>
       </div>
 
       <div class="doc" id="download">
         <h2>Download</h2>
         <!--<p>find below a container named download@conntroll</p>-->
-        <p>download latest binary release (updated 2020-01-01):</p>
+        <p>download latest binary release (updated 2020-01-11):</p>
 	<ul>
-          <li><a href="https://conntroll.github.io/releases/latest/linux/amd64/agent">linux/amd64</a></li>
-          <li><a href="https://conntroll.github.io/releases/latest/linux/386/agent">linux/386</a></li>
-          <li><a href="https://conntroll.github.io/releases/latest/darwin/amd64/agent">darwin/amd64</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/darwin/amd64/conntroll">darwin/amd64</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/linux/amd64/conntroll">linux/amd64</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/linux/386/conntroll">linux/386</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/linux/arm/conntroll">linux/arm</a></li>
+          <li><a href="https://conntroll.github.io/releases/latest/linux/arm64/conntroll">linux/arm64</a></li>
 	</ul>
-        <p>alternatively you can pull the latest docker image via:</p>
-        <pre>$ docker run conntroll/agent:latest</pre>
-      </div>
 
-      <div class="doc" id="examples">
-        <h2>Examples</h2>
-        <h3>Run on your host</h3>
-        <p>Although I used to do so, running conntroll directly on your host is strongly discoraged, unless you know what you are doing</p>
-        <h3>Run inside a container</h3>
+        <p>or install through go-get:</p>
+        <pre>$ go get -u k0s.io/conntroll</pre>
+
+        <p>Alternatively you can pull the latest docker image via:</p>
+        <pre>$ docker run conntroll/agent</pre>
+        <p>There's a list of distro flavors for you to choose from:</p>
 	<pre>
-$ docker run conntroll/agent 
 $ docker run conntroll/agent:arch
 $ docker run conntroll/agent:ubuntu
 $ docker run conntroll/agent:alpine
 $ docker run conntroll/agent:gentoo
 $ docker run conntroll/agent:fedora
 $ docker run conntroll/agent:debian
+</pre>
+        <p>Personally I prefer arch - I use arch btw.</p>
+      </div>
 
-$ docker run -v /dir/to/share:/public -w /public conntroll/agent 
+      <div class="doc" id="examples">
+        <h2>Examples</h2>
+        <h3>Run inside a container</h3>
+	<pre>
+$ docker run conntroll/agent 
 </pre>
       </div>
 
@@ -109,6 +125,7 @@ $ docker run -v /dir/to/share:/public -w /public conntroll/agent
       </div>
 
       <div class="doc" id="stats"></div>
+    </div>
 
       <div id="agents"></div>
 
