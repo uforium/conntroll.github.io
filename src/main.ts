@@ -217,7 +217,7 @@ function newSummaryWsConnectedMessage() : HTMLDivElement {
 }
 
 function pushSummary(child : HTMLDivElement){
-  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("stats");
   while (summaryElem.childNodes.length >= 3){
     summaryElem.removeChild(summaryElem.lastChild);
   }

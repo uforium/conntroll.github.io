@@ -3,23 +3,6 @@
  <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <script src="dist/bundle.js"></script>
-  <script>
-// function toggleElementVisibilityById(id){
-function toggle(id){
-  elem = document.getElementById(id);
-  disp = elem.style.display;
-  if (disp != "block") {
-    elem.style.display = "block";
-  } else {
-    elem.style.display = "";
-  }
-  ["home", "download", "examples", "how-it-works", "meaning-of-colors", "about"].forEach((e)=>{
-    if (e != id) {
-      document.getElementById(e).style.display="";
-    }
-  });
-}
-  </script>
   <style>
     body {
       margin: 0px;
@@ -64,33 +47,13 @@ a:active {
       font-size: 11.5pt;
       font-weight: bold;
       font-family: "Dejavu Sans", "helvetica neue", aria, sans-serif;
-      background: seashell;
+      background: white;
       border-width: thin;
       // border-color: black;
       // border-style: solid;
       border-radius: 1em;
       margin-left: 1em;
       margin-right: 1em;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      padding-left: 3em;
-      padding-right: 3em;
-      margin-top: 1em;
-      margin-bottom: 1em;
-      // box-shadow: 3px 3px 13px 0px black;
-    }
-    #summary {
-      color: #888;
-      text-align: left;
-      font-family: "Dejavu Sans", "helvetica neue", aria, sans-serif;
-      background: seashell;
-      border-width: thin;
-      // border-color: black;
-      // border-style: solid;
-      border-radius: 1em;
-      margin-left: 1em;
-      margin-right: 1em;
-      text-align: center;
       padding-top: 1em;
       padding-bottom: 1em;
       padding-left: 3em;
@@ -109,7 +72,7 @@ a:active {
       background: #bada55;
     }
     .agent {
-      background: seashell;
+      background: white;
       border-width: thin;
       // border-color: black;
       // border-style: solid;
@@ -214,16 +177,30 @@ margin-bottom: 1em;
     </div>
     <div id="view">
       <div class="doc" id="topbar">
-          <a href='#' onclick="toggle('home')">Home</a> 
+          <a href='#' onclick="toggle('story')">Story</a> 
         | <a href='#' onclick="toggle('download')">Download</a>
         | <a href='#' onclick="toggle('examples')">Examples</a>
-        | <a href='#' onclick="toggle('how-it-works')">How it works</a>
         | <a href='#' onclick="toggle('meaning-of-colors')">Meaning of colors</a> 
+        | <a href='#' onclick="toggle('stats')")>Stats</a>
         | <a href='#' onclick="toggle('about')")>About</a>
+        <!-- | <a href='#' onclick="toggle('how-it-works')">How it works</a> -->
       </div>
-      <div class="doc" id="home">
-        <h1>conntroll</h1>
-        <p>access your terminal and files behind NAT</p>
+      <div class="doc" id="story" style="display: block;">
+        <h1>ConnTroll</h1>
+        <h2># What is ConnTroll?</h2>
+        <p>ConnTroll was a tool initially designed to control my ThinkPads at home from work. </p>
+        <p>It helped a lot until lately the company I worked for went out of business during the trade war. Consequently I'm out of work and it becomes less useful to me, which is sad. So I decide to polish it and make it public.</p>
+        <h2># What does it do?</h2>
+        <p>As of now, Dec 25 2019, you can use it to:</p>
+	<ul>
+          <li>control home computer from work</li>
+          <li>access terminal and files behind NAT</li>
+          <li>stream container logs to browser realtime</li>
+	</ul>
+        <h2># Who is it for?</h2>
+        <p>Developers who enjoy working with terminal</p>
+        <h2># How do I use it?</h2>
+        <p>See the #Examples section</p>
       </div>
       <div class="doc" id="download">
         <h2>Download</h2>
@@ -267,9 +244,57 @@ $ docker run -v /dir/to/share:/public -w /public conntroll/agent
         <p>Author: btwiuse</p>
         <p>GitHub: https://github.com/btwiuse/conntroll</p>
       </div>
-      <div id="summary"></div>
+      <div class="doc" id="stats"></div>
       <div id="agents"></div>
     </div>
   </div>
  </body>
+  <script>
+// function toggleElementVisibilityById(id){
+function toggle(id){
+  elem = document.getElementById(id);
+  disp = elem.style.display;
+  if (disp != "block") {
+    elem.style.display = "block";
+    setCookie("prevtab", id, 7)
+  } else {
+    elem.style.display = "";
+  }
+  ["story", "download", "examples", "meaning-of-colors", "stats", "about"].forEach((e)=>{ // "how-it-works", 
+    if (e != id) {
+      document.getElementById(e).style.display="";
+    }
+  });
+}
+// https://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name+'=; Max-Age=-99999999;';  
+}
+var tab = getCookie("prevtab");
+if (tab) {
+  // console.log(tab, "found");
+  toggle(tab)
+} else {
+  // console.log(tab, "not found");
+}
+  </script>
 </html>
