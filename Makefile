@@ -13,4 +13,4 @@ assets:
 	git checkout assets
 	cp assets.go webui_assets.go
 	git add webui_assets.go
-	git commit
+	git commit && git push && git checkout src || git checkout src
