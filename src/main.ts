@@ -19,7 +19,7 @@ async function onClick(){
 }
 
 function main() {
-  let buttonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("connect");
+  let buttonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("list");
   buttonElem.onclick = onClick;
 }
 
