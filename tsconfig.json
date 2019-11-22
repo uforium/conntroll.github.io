@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+      "strictNullChecks": false,
+      "noUnusedLocals" : true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "outDir": "./dist/",
+      "declaration": true,
+      "sourceMap": true,
+      "target": "es6",
+      "module": "commonJS",
+      "baseUrl": ".",
+      "paths": {
+          "*": ["./typings/*"]
+      }
+  },
+    "exclude": [
+      "node_modules"
+    ]
+}
