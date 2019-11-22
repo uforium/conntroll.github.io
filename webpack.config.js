@@ -17,11 +17,12 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: "ts-loader",
-                exclude: /node_modules/
+                exclude: /node_modules|dist/
             },
             {
                 test: /\.js$/,
                 include: /node_modules/,
+                exclude: /dist/,
                 loader: 'license-loader'
             }
         ]
