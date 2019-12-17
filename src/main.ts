@@ -70,7 +70,9 @@ function appendAgent(agent : Agent){
 
 function updateSummary(i : number){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
-  summaryElem.innerHTML = i.toString() + ' Agents Found';
+  let date = new Date();
+  let offset = date.getTimezoneOffset();
+  summaryElem.innerHTML = (date + offset).toISOString() + ' ' + i.toString() + ' Agents Found';
 }
 
 function clearAgentsAndSummary(){
