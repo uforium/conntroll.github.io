@@ -56,10 +56,7 @@ async function onListClick(){
       cancelWatch();
     }
   }
-  clearAgentsAndSummary();
-  for(let agent of agents){
-    appendAgent(agent);
-  }
+  updateAgents(agents);
   updateSummary(agents.length);
 }
 
@@ -80,16 +77,16 @@ interface Agent {
   hostname : string;
 }
 
-function appendAgent(agent : Agent){
+function createAgentElem(agent : Agent) : HTMLDivElement {
   let api = getApi();
   let base = '/agent/';
   let url = api + base + agent.id + '/';
-  let agentsElem : HTMLDivElement = <HTMLDivElement>document.getElementById("agents");
-  let hrElem = document.createElement('hr');
-  let hr2Elem = document.createElement('hr');
+
   let childElem = document.createElement('div');
   let infoSubelem = document.createElement('pre');
   let aSubelem = document.createElement('a');
+  let hrElem = document.createElement('hr');
+  let hr2Elem = document.createElement('hr');
 
   infoSubelem.innerHTML = agent.whoami + '@' + agent.hostname + ' ' + agent.pwd + ' $';
   aSubelem.innerHTML = 'ws';
@@ -97,12 +94,52 @@ function appendAgent(agent : Agent){
   aSubelem.setAttribute('href', url);
 
   childElem.setAttribute("id", agent.id);
+  childElem.appendChild(hrElem);
   childElem.appendChild(infoSubelem);
   childElem.appendChild(aSubelem);
+  childElem.appendChild(hr2Elem);
 
-  agentsElem.appendChild(hrElem);
-  agentsElem.appendChild(childElem);
-  agentsElem.appendChild(hr2Elem);
+  return childElem;
+}
+
+function difference(A : Set<string>, B : Set<string>) : Set<string> {
+  var AminusB = new Set<string>(A);
+  for (var elem of B) {
+    if (AminusB.has(elem)) {
+      AminusB.delete(elem);
+    }
+  }
+  return AminusB;
+}
+
+function updateAgents(agents : Agent[]){
+  let agentsContainerElem : HTMLDivElement = <HTMLDivElement>document.getElementById("agents");
+  let existingAgentIDs : Set<string> = new Set<string>();
+  let newAgentIDs : Set<string> = new Set<string>();
+
+  for (let child of agentsContainerElem.childNodes) {
+    existingAgentIDs.add((<HTMLDivElement>child).id);
+  }
+
+  for (let agent of agents) {
+    newAgentIDs.add(agent.id);
+  }
+
+  let del : Set<string> = difference(existingAgentIDs, newAgentIDs);
+  let add : Set<string> = difference(newAgentIDs, existingAgentIDs);
+
+  for (let child of agentsContainerElem.childNodes) {
+    if (del.has((<HTMLDivElement>child).id)) {
+      agentsContainerElem.removeChild(child);
+    }
+  }
+
+  for (let agent of agents) {
+    if (add.has(agent.id)) {
+      let childElem : HTMLDivElement = createAgentElem(agent);
+      agentsContainerElem.appendChild(childElem);
+    }
+  }
 }
 
 function updateSummaryException(e : TypeError){
@@ -114,14 +151,7 @@ function updateSummaryException(e : TypeError){
 function updateSummary(i : number){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
   let date = new Date();
-  summaryElem.innerHTML = date.toISOString() + ' ' + i.toString() + ' Agents Found';
-}
-
-function clearAgentsAndSummary(){
-  let listElem : HTMLDivElement = <HTMLDivElement>document.getElementById("agents");
-  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
-  listElem.innerHTML = "";
-  summaryElem.innerHTML = "";
+  summaryElem.innerHTML = date.toISOString() + ' ' + i.toString() + ' Agents Connected';
 }
 
 function main() {
