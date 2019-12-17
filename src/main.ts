@@ -18,7 +18,13 @@ async function apiAgents() : Promise<Agent[]>{
 }
 
 async function onClick(){
-  let agents : Agent[] = await apiAgents();
+  let agents : Agent[] = []
+  try {
+    agents = await apiAgents();
+  } catch (e) {
+    updateSummaryException(e);
+    return;
+  }
   clearAgentsAndSummary();
   for(let agent of agents){
     appendAgent(agent);
@@ -68,11 +74,16 @@ function appendAgent(agent : Agent){
   agentsElem.appendChild(hr2Elem);
 }
 
+function updateSummaryException(e : TypeError){
+  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+  let date = new Date();
+  summaryElem.innerHTML = date.toISOString() + ' ' + e;
+}
+
 function updateSummary(i : number){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
   let date = new Date();
-  let offset = date.getTimezoneOffset();
-  summaryElem.innerHTML = (date + offset).toISOString() + ' ' + i.toString() + ' Agents Found';
+  summaryElem.innerHTML = date.toISOString() + ' ' + i.toString() + ' Agents Found';
 }
 
 function clearAgentsAndSummary(){
