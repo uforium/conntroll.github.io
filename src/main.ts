@@ -17,13 +17,44 @@ async function apiAgents() : Promise<Agent[]>{
   return agents;
 }
 
-async function onClick(){
+var intervalIDs : number[] = [];
+var watchExceptions : TypeError[] = [];
+
+function cancelWatch(){
+  while (intervalIDs.length > 0) {
+    window.clearInterval(intervalIDs.pop());
+  }
+  watchExceptions.length = 0;
+}
+
+function startWatch(){
+  let intervalID = window.setInterval(onListClick, 1000);
+  intervalIDs.push(intervalID);
+}
+
+async function onWatchClick(){
+  if (intervalIDs.length > 0) {
+    cancelWatch();
+    return
+  }
+  startWatch();
+}
+
+async function onListClick(){
   let agents : Agent[] = []
   try {
+    console.log(intervalIDs.length, watchExceptions.length);
     agents = await apiAgents();
   } catch (e) {
+    if (intervalIDs.length > 0) {
+      watchExceptions.push(e);
+    }
     updateSummaryException(e);
     return;
+  } finally {
+    if ((intervalIDs.length > 0) && (watchExceptions.length > 10)) {
+      cancelWatch();
+    }
   }
   clearAgentsAndSummary();
   for(let agent of agents){
@@ -94,8 +125,10 @@ function clearAgentsAndSummary(){
 }
 
 function main() {
-  let buttonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("list");
-  buttonElem.onclick = onClick;
+  let listButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("list");
+  let watchButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("watch");
+  listButtonElem.onclick = onListClick;
+  watchButtonElem.onclick = onWatchClick;
 }
 
 window.onload = main;
