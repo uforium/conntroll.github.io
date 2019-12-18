@@ -126,10 +126,10 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
 
   agentElem.setAttribute("class", "agent");
   agentElem.setAttribute("id", agent.id);
-  agentElem.appendChild(document.createElement('hr'));
+  // agentElem.appendChild(document.createElement('hr'));
   agentElem.appendChild(leftSideElem);
   agentElem.appendChild(rightSideElem);
-  agentElem.appendChild(document.createElement('hr'));
+  // agentElem.appendChild(document.createElement('hr'));
 
   return agentElem;
 }
