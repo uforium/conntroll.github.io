@@ -62,10 +62,11 @@ async function onListClick(){
 
 function createAgent(agent : any) : Agent{
   let agentJSON = {
-    id: agent.id[0],
-    pwd: agent.pwd[0],
-    whoami: agent.whoami[0],
-    hostname: agent.hostname[0]
+    id: agent.id,
+    pwd: agent.pwd,
+    whoami: agent.whoami,
+    hostname: agent.hostname,
+    connected: agent.connected
   };
   return agentJSON;
 }
@@ -75,6 +76,7 @@ interface Agent {
   pwd : string;
   whoami : string;
   hostname : string;
+  connected: number;
 }
 
 function createAgentElem(agent : Agent) : HTMLDivElement {
@@ -114,7 +116,7 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   topbarElem.appendChild(dollarSpanElem);
 
   subbarElem.setAttribute('class', 'agent-subbar');
-  subbarElem.innerHTML = "connected *** ago | ";
+  subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | ";
   subbarElem.appendChild(connectElem);
 
   leftSideElem.setAttribute('class', 'agent-left');
@@ -126,12 +128,21 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
 
   agentElem.setAttribute("class", "agent");
   agentElem.setAttribute("id", agent.id);
-  // agentElem.appendChild(document.createElement('hr'));
   agentElem.appendChild(leftSideElem);
   agentElem.appendChild(rightSideElem);
-  // agentElem.appendChild(document.createElement('hr'));
 
   return agentElem;
+}
+
+function ago(s : number) : string {
+  let min = Math.round((Date.now()/1000-s)/60)
+  if (min < 60) {
+    return min.toString() + " min"
+  }
+  if (60 <= min && min < 60*24) {
+    return Math.round(min/60).toString() + " hour"
+  }
+  return Math.round(min/60/24).toString() + " day"
 }
 
 function difference(A : Set<string>, B : Set<string>) : Set<string> {
