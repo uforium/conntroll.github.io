@@ -78,28 +78,60 @@ interface Agent {
 }
 
 function createAgentElem(agent : Agent) : HTMLDivElement {
-  let api = getApi();
   let base = '/agent/';
+  let api = getApi();
   let url = api + base + agent.id + '/';
 
-  let childElem = document.createElement('div');
-  let infoSubelem = document.createElement('pre');
-  let aSubelem = document.createElement('a');
-  let hrElem = document.createElement('hr');
-  let hr2Elem = document.createElement('hr');
+  let agentElem = document.createElement('div');
+  let leftSideElem = document.createElement('div');
+  let rightSideElem = document.createElement('div');
+  let topbarElem = document.createElement('div');
+  let userElem = document.createElement('a');
+  let pathElem = document.createElement('a');
+  let dollarElem = document.createElement('a');
+  let userSpanElem = document.createElement('span');
+  let pathSpanElem = document.createElement('span');
+  let dollarSpanElem = document.createElement('span');
+  let subbarElem = document.createElement('div');
+  let connectElem = document.createElement('a');
 
-  infoSubelem.innerHTML = agent.whoami + '@' + agent.hostname + ' ' + agent.pwd + ' $';
-  aSubelem.innerHTML = 'ws';
-  aSubelem.setAttribute('target', '_blank');
-  aSubelem.setAttribute('href', url);
+  userElem.innerHTML = agent.whoami + '@' + agent.hostname + ' ';
+  pathElem.innerHTML = agent.pwd;
+  // pathElem.setAttribute('target', '_blank');
+  pathElem.setAttribute('href', '#');
+  dollarElem.innerHTML = ' $';
+  userSpanElem.appendChild(userElem);
+  pathSpanElem.appendChild(pathElem);
+  dollarSpanElem.appendChild(dollarElem);
 
-  childElem.setAttribute("id", agent.id);
-  childElem.appendChild(hrElem);
-  childElem.appendChild(infoSubelem);
-  childElem.appendChild(aSubelem);
-  childElem.appendChild(hr2Elem);
+  connectElem.innerHTML = 'connect';
+  connectElem.setAttribute('target', '_blank');
+  connectElem.setAttribute('href', url);
 
-  return childElem;
+  topbarElem.setAttribute('class', 'agent-topbar');
+  topbarElem.appendChild(userSpanElem);
+  topbarElem.appendChild(pathSpanElem);
+  topbarElem.appendChild(dollarSpanElem);
+
+  subbarElem.setAttribute('class', 'agent-subbar');
+  subbarElem.innerHTML = "connected *** ago | ";
+  subbarElem.appendChild(connectElem);
+
+  leftSideElem.setAttribute('class', 'agent-left');
+  leftSideElem.innerHTML = 'L';
+
+  rightSideElem.setAttribute('class', 'agent-right');
+  rightSideElem.appendChild(topbarElem);
+  rightSideElem.appendChild(subbarElem);
+
+  agentElem.setAttribute("class", "agent");
+  agentElem.setAttribute("id", agent.id);
+  agentElem.appendChild(document.createElement('hr'));
+  agentElem.appendChild(leftSideElem);
+  agentElem.appendChild(rightSideElem);
+  agentElem.appendChild(document.createElement('hr'));
+
+  return agentElem;
 }
 
 function difference(A : Set<string>, B : Set<string>) : Set<string> {
