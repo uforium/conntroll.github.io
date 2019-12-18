@@ -63,7 +63,10 @@ async function onListClick(){
 function createAgent(agent : any) : Agent{
   let agentJSON = {
     id: agent.id,
+    ip: agent.ip,
+    os: agent.os,
     pwd: agent.pwd,
+    arch: agent.arch,
     whoami: agent.whoami,
     hostname: agent.hostname,
     connected: agent.connected
@@ -73,7 +76,10 @@ function createAgent(agent : any) : Agent{
 
 interface Agent {
   id : string;
+  ip : string;
+  os : string;
   pwd : string;
+  arch : string;
   whoami : string;
   hostname : string;
   connected: number;
@@ -96,6 +102,8 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   let dollarSpanElem = document.createElement('span');
   let subbarElem = document.createElement('div');
   let connectElem = document.createElement('a');
+  let sepElem = document.createElement('a')
+  let ipElem = document.createElement('a');
 
   userElem.innerHTML = agent.whoami + '@' + agent.hostname + ' ';
   pathElem.innerHTML = agent.pwd;
@@ -106,6 +114,10 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   pathSpanElem.appendChild(pathElem);
   dollarSpanElem.appendChild(dollarElem);
 
+  ipElem.innerHTML = agent.ip;
+  ipElem.setAttribute('target', '_blank');
+  ipElem.setAttribute('href', 'https://ip.sb/ip/'+agent.ip);
+  sepElem.innerHTML = ' | ';
   connectElem.innerHTML = 'connect';
   connectElem.setAttribute('target', '_blank');
   connectElem.setAttribute('href', url);
@@ -117,6 +129,8 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
 
   subbarElem.setAttribute('class', 'agent-subbar');
   subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | " + agent.id + " | ";
+  subbarElem.appendChild(ipElem);
+  subbarElem.appendChild(sepElem);
   subbarElem.appendChild(connectElem);
 
   leftSideElem.setAttribute('class', 'agent-left');
