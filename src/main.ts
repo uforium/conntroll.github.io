@@ -187,14 +187,18 @@ function updateAgents(agents : Agent[]){
 
 function updateSummaryException(e : TypeError){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+  let itemElem = document.createElement('div');
   let date = new Date();
-  summaryElem.innerHTML = date.toISOString() + ' ' + e;
+  itemElem.innerHTML = date.toISOString() + ' ' + e;
+  summaryElem.appendChild(itemElem);
 }
 
 function updateSummary(i : number){
   let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+  let itemElem = document.createElement('div');
   let date = new Date();
-  summaryElem.innerHTML = date.toISOString() + ' ' + i.toString() + ' Agents Connected';
+  itemElem.innerHTML = date.toISOString() + ' ' + i.toString() + ' Agents Connected';
+  summaryElem.appendChild(itemElem);
 }
 
 function main() {
