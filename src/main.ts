@@ -43,21 +43,21 @@ async function onWatchClick(){
 async function onListClick(){
   let agents : Agent[] = []
   try {
-    console.log(intervalIDs.length, watchExceptions.length);
+    // console.log(intervalIDs.length, watchExceptions.length);
     agents = await apiAgents();
   } catch (e) {
     if (intervalIDs.length > 0) {
       watchExceptions.push(e);
     }
-    updateSummaryException(e);
+    pushSummary(newSummaryException(e));
     return;
   } finally {
-    if ((intervalIDs.length > 0) && (watchExceptions.length > 10)) {
+    if ((intervalIDs.length > 0) && (watchExceptions.length > 1)) {
       cancelWatch();
     }
   }
   updateAgents(agents);
-  updateSummary(agents.length);
+  pushSummary(newSummaryMessage(agents.length));
 }
 
 function createAgent(agent : any) : Agent{
@@ -116,7 +116,7 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   topbarElem.appendChild(dollarSpanElem);
 
   subbarElem.setAttribute('class', 'agent-subbar');
-  subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | ";
+  subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | " + agent.id + " | ";
   subbarElem.appendChild(connectElem);
 
   leftSideElem.setAttribute('class', 'agent-left');
@@ -145,16 +145,7 @@ function ago(s : number) : string {
   return Math.round(min/60/24).toString() + " day"
 }
 
-function difference(A : Set<string>, B : Set<string>) : Set<string> {
-  var AminusB = new Set<string>(A);
-  for (var elem of B) {
-    if (AminusB.has(elem)) {
-      AminusB.delete(elem);
-    }
-  }
-  return AminusB;
-}
-
+// TODO: agents container object .update(agents)
 function updateAgents(agents : Agent[]){
   let agentsContainerElem : HTMLDivElement = <HTMLDivElement>document.getElementById("agents");
   let existingAgentIDs : Set<string> = new Set<string>();
@@ -168,37 +159,42 @@ function updateAgents(agents : Agent[]){
     newAgentIDs.add(agent.id);
   }
 
-  let del : Set<string> = difference(existingAgentIDs, newAgentIDs);
-  let add : Set<string> = difference(newAgentIDs, existingAgentIDs);
+  for (let agent of agents) {
+    if (!existingAgentIDs.has(agent.id)) {
+      let childElem : HTMLDivElement = createAgentElem(agent);
+      agentsContainerElem.appendChild(childElem);
+      existingAgentIDs.add(agent.id);
+    }
+  }
 
   for (let child of agentsContainerElem.childNodes) {
-    if (del.has((<HTMLDivElement>child).id)) {
+    if (!newAgentIDs.has((<HTMLDivElement>child).id)) {
       agentsContainerElem.removeChild(child);
     }
   }
-
-  for (let agent of agents) {
-    if (add.has(agent.id)) {
-      let childElem : HTMLDivElement = createAgentElem(agent);
-      agentsContainerElem.appendChild(childElem);
-    }
-  }
 }
 
-function updateSummaryException(e : TypeError){
-  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+function newSummaryException(e : TypeError) : HTMLDivElement {
   let itemElem = document.createElement('div');
   let date = new Date();
   itemElem.innerHTML = date.toISOString() + ' ' + e;
-  summaryElem.appendChild(itemElem);
+  return itemElem;
 }
 
-function updateSummary(i : number){
-  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+function newSummaryMessage(i : number) : HTMLDivElement {
   let itemElem = document.createElement('div');
   let date = new Date();
   itemElem.innerHTML = date.toISOString() + ' ' + i.toString() + ' Agents Connected';
-  summaryElem.appendChild(itemElem);
+  return itemElem;
+}
+
+// TODO: push to sized queue object
+function pushSummary(child : HTMLDivElement){
+  let summaryElem : HTMLDivElement = <HTMLDivElement>document.getElementById("summary");
+  while (summaryElem.childNodes.length >= 3){
+    summaryElem.removeChild(summaryElem.lastChild);
+  }
+  summaryElem.prepend(child);
 }
 
 function main() {
