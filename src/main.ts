@@ -67,7 +67,7 @@ function createAgent(agent : any) : Agent{
     os: agent.os,
     pwd: agent.pwd,
     arch: agent.arch,
-    whoami: agent.whoami,
+    username: agent.username,
     hostname: agent.hostname,
     connected: agent.connected
   };
@@ -80,13 +80,13 @@ interface Agent {
   os : string;
   pwd : string;
   arch : string;
-  whoami : string;
+  username : string;
   hostname : string;
   connected: number;
 }
 
 function createAgentElem(agent : Agent) : HTMLDivElement {
-  let base = '/agent/';
+  let base = '/api/agent/';
   let api = getApi();
   let url = api + base + agent.id;
 
@@ -105,13 +105,13 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   let sepElem = document.createElement('a')
   let ipElem = document.createElement('a');
 
-  userElem.innerHTML = agent.whoami + '@' + agent.hostname + ' ';
+  userElem.innerHTML = agent.username + '@' + agent.hostname + ' ';
   pathElem.innerHTML = agent.pwd;
   pathElem.setAttribute('target', '_blank');
   pathElem.setAttribute('href', url+'/rootfs'+agent.pwd);
   dollarElem.innerHTML = ' $';
   dollarElem.setAttribute('target', '_blank');
-  dollarElem.setAttribute('href', url+'/rootfs/home/'+agent.whoami);
+  dollarElem.setAttribute('href', url+'/rootfs/home/'+agent.username);
   userSpanElem.appendChild(userElem);
   pathSpanElem.appendChild(pathElem);
   dollarSpanElem.appendChild(dollarElem);
