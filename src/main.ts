@@ -1,15 +1,32 @@
-function getApi() : string{
+function autoAPIURL() {
+  let inputElem : HTMLInputElement = <HTMLInputElement>document.getElementById("api");
+  inputElem.value = window.location.origin;
+}
+
+function getAPIURL() : URL {
   let inputElem : HTMLInputElement = <HTMLInputElement>document.getElementById("api");
   let api : string = inputElem.value;
-  return api
+  let url : URL;
+  try {
+    url = new URL(api);
+  } catch (e) {
+    pushSummary(newSummaryException(e));
+  }
+  return url;
 }
 
 async function apiAgents() : Promise<Agent[]>{
-  let api = getApi();
   let path = "/api/agents/";
-  let url = api + path;
+  let au = getAPIURL();
+  let url = au.protocol + "//" + au.host + path;
+  let headers = new Headers();
   let agents : Agent[] = [];
-  const resp = await fetch(url);
+  if (au.username != "" && au.password != "") {
+    headers.append('Authorization', 'Basic ' + btoa(au.username + ':' + au.password));
+  }
+  // console.log(au);
+  // console.log(url);
+  const resp = await fetch(url, {headers: headers});
   const jsonArray = await resp.json();
   for(let elem of jsonArray){
     agents.push(createAgent(elem));
@@ -63,10 +80,12 @@ async function onListClick(){
 function createAgent(agent : any) : Agent{
   let agentJSON = {
     id: agent.id,
+    name: agent.name,
     ip: agent.ip,
     os: agent.os,
     pwd: agent.pwd,
     arch: agent.arch,
+    auth: agent.auth,
     username: agent.username,
     hostname: agent.hostname,
     connected: agent.connected
@@ -76,10 +95,12 @@ function createAgent(agent : any) : Agent{
 
 interface Agent {
   id : string;
+  name : string;
   ip : string;
   os : string;
   pwd : string;
   arch : string;
+  auth : boolean;
   username : string;
   hostname : string;
   connected: number;
@@ -87,8 +108,12 @@ interface Agent {
 
 function createAgentElem(agent : Agent) : HTMLDivElement {
   let base = '/api/agent/';
-  let api = getApi();
-  let url = api + base + agent.id;
+  let au = getAPIURL();
+  let url : string = au.protocol + "//" + au.host + base + agent.id;
+
+  if (au.username != "" && au.password != "") {
+    url = au.protocol + "//" + au.username + ":" + au.password + "@" + au.host + base + agent.id;
+  }
 
   let agentElem = document.createElement('div');
   let leftSideElem = document.createElement('div');
@@ -106,6 +131,9 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   let ipElem = document.createElement('a');
 
   userElem.innerHTML = agent.username + '@' + agent.hostname + ' ';
+  if (agent.auth) {
+    userElem.setAttribute('class', 'auth');
+  }
   pathElem.innerHTML = agent.pwd;
   pathElem.setAttribute('target', '_blank');
   pathElem.setAttribute('href', url+'/rootfs'+agent.pwd);
@@ -130,7 +158,7 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
   topbarElem.appendChild(dollarSpanElem);
 
   subbarElem.setAttribute('class', 'agent-subbar');
-  subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | " + agent.id + " | ";
+  subbarElem.innerHTML = "connected " + ago(agent.connected) + " ago | " + agent.name + " | ";
   subbarElem.appendChild(ipElem);
   subbarElem.appendChild(sepElem);
   subbarElem.appendChild(connectElem);
@@ -214,10 +242,12 @@ function pushSummary(child : HTMLDivElement){
 }
 
 function main() {
-  let listButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("list");
-  let watchButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("watch");
-  listButtonElem.onclick = onListClick;
-  watchButtonElem.onclick = onWatchClick;
+  autoAPIURL();
+  // let listButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("list");
+  // let watchButtonElem : HTMLButtonElement = <HTMLButtonElement>document.getElementById("watch");
+  // listButtonElem.onclick = onListClick;
+  // watchButtonElem.onclick = onWatchClick;
+  onWatchClick();
 }
 
 window.onload = main;
