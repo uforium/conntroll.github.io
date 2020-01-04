@@ -41,3 +41,6 @@ var tab = getCookie("prevtab");
 if (tab) {
   toggle(tab)
 }
+["story", "download", "examples", "meaning-of-colors", "stats", "about"].forEach((e)=>{ // "how-it-works",
+  document.getElementById("a-"+e).onclick=(()=>toggle(e));
+});
