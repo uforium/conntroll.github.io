@@ -1,0 +1,39 @@
+{
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "chrome-assets/icon-32.png",
+    "default_title": "Conntroll",
+    "default_popup": "index.html?popup=true"
+  },
+  "description": "access your terminal and files behind NAT",
+  "icons": {
+    "128": "chrome-assets/icon-128.png",
+    "32": "chrome-assets/icon-32.png",
+    "48": "chrome-assets/icon-48.png"
+  },
+  "minimum_chrome_version": "25",
+  "manifest_version": 2,
+  "name": "Conntroll",
+  "permissions": [ "tabs", "bookmarks", "history" ],
+  "update_url": "http://clients2.google.com/service/update2/crx",
+
+  "version": "2019.12.29",
+
+  "commands": {
+    "_execute_browser_action": {
+       "suggested_key": {
+         "default": "Ctrl+E",
+         "mac": "Command+E",
+         "linux": "Ctrl+Q"
+       }
+    },
+    "quick-prev-tab": {
+      "description": "Switch to Older tab"
+    },
+    "quick-next-tab": {
+      "description": "Switch to Newer tab"
+    }
+  }
+}
