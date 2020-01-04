@@ -1,7 +1,8 @@
 function autoAPIURL() {
   let inputElem : HTMLInputElement = <HTMLInputElement>document.getElementById("api");
-  let origin = window.location.origin;
-  if (origin == "https://conntroll.github.io") {
+  let isExtension : boolean = ((<any>window).chrome && (<any>window).chrome.runtime && (<any>window).chrome.runtime.id)
+  let isGitHubPage : boolean = (window.location.origin == "https://conntroll.github.io")
+  if (isExtension || isGitHubPage) {
     inputElem.value = "https://conntroll.libredot.com";
     return;
   }
@@ -243,7 +244,13 @@ function pushSummary(child : HTMLDivElement){
 }
 
 function agentsWatch(){
-  const url = (window.location.protocol == "https:" ? 'wss://' : 'ws://') + (window.location.host == "conntroll.github.io" ? "conntroll.libredot.com" : window.location.host) + window.location.pathname + 'api/agents/watch';
+  let isExtension : boolean = ((<any>window).chrome && (<any>window).chrome.runtime && (<any>window).chrome.runtime.id)
+  let isGitHubPage : boolean = (window.location.host == "conntroll.github.io")
+
+  let wsScheme : string = ((window.location.protocol == "https:") || isExtension || isGitHubPage ? 'wss://' : 'ws://')
+  let wsHost : string = ((isGitHubPage || isExtension) ? "conntroll.libredot.com" : window.location.host)
+  const url = wsScheme + wsHost + '/api/agents/watch';
+
   var ws = new WebSocket(url);
   ws.onopen = (event) => {
     pushSummary(newSummaryWsConnectedMessage());
