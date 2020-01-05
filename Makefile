@@ -14,3 +14,6 @@ assets:
 	cp assets.go webui_assets.go
 	git add webui_assets.go
 	git commit && git push && git checkout src || git checkout src
+
+chrome:
+	tar c dist/bundle.js manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.tar
