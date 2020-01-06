@@ -1,11 +1,11 @@
 all:
 	webpack
-	cp dist/bundle.js dist/bundle.js.src
 
 master:
-	echo import changes from src branch
-	git add -f dist/bundle.js
-	git checkout src index.html 
+	git checkout master
+	git checkout src -- index.html script.js style.css
+	git add index.html script.js style.css dist/bundle.js
+	git commit && git push && git checkout src || git checkout src
 
 .PHONY: assets
 assets:
