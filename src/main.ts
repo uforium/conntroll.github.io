@@ -253,21 +253,23 @@ function agentsWatch(){
 
   var ws = new WebSocket(url);
   ws.binaryType = 'blob';
-  ws.onopen = (event) => {
+  ws.onopen = (event:Event) => {
     pushSummary(newSummaryWsConnectedMessage());
   }
-  ws.onclose = (event) => {
+  ws.onclose = (event:CloseEvent) => {
     pushSummary(newSummaryCloseEvent(event));
+    // reconnect
+    setTimeout(function() { agentsWatch() }, 5);
   }
-  ws.onmessage = async (event) => {
+  ws.addEventListener('message', function (event:MessageEvent) {
     let agents : Agent[] = [];
-    let jsonArray = JSON.parse(await event.data.text());
+    let jsonArray = JSON.parse(event.data);
     for(let elem of jsonArray){
       agents.push(createAgent(elem));
     }
     updateAgents(agents);
     pushSummary(newSummaryMessage(agents.length));
-  }
+  } );
 }
 
 function main() {
