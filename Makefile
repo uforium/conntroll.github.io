@@ -2,6 +2,10 @@ all:
 	webpack
 	cp dist/bundle.js dist/bundle.js.src
 
+master:
+	echo import changes from src branch
+	git add -f dist/bundle.js
+	git checkout src index.html 
 
 .PHONY: assets
 assets:
