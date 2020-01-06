@@ -252,6 +252,7 @@ function agentsWatch(){
   const url = wsScheme + wsHost + '/api/agents/watch';
 
   var ws = new WebSocket(url);
+  ws.binaryType = 'blob';
   ws.onopen = (event) => {
     pushSummary(newSummaryWsConnectedMessage());
   }
