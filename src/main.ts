@@ -269,7 +269,7 @@ function agentsWatch(){
     }
     updateAgents(agents);
     pushSummary(newSummaryMessage(agents.length));
-  } );
+  });
 }
 
 function main() {
