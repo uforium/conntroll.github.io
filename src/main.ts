@@ -120,7 +120,8 @@ function createAgentElem(agent : Agent) : HTMLDivElement {
 
   ipElem.innerHTML = agent.ip;
   ipElem.setAttribute('target', '_blank');
-  ipElem.setAttribute('href', 'https://ip.sb/ip/'+agent.ip);
+  // ipElem.setAttribute('href', 'https://ip.sb/ip/'+agent.ip);
+  ipElem.setAttribute('href', 'https://www.wolframalpha.com/input/?i='+agent.ip+' ip geolocation');
   sepElem.innerHTML = ' | ';
   connectElem.innerHTML = 'connect';
   connectElem.setAttribute('target', '_blank');
