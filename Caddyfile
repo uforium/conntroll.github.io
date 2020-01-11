@@ -1,0 +1,15 @@
+:80 {
+  log / stdout "[{when}] {user} {remote} {proto} {method} {scheme}://{host}{path} | {hostname} {status} {size}" 
+  redir 301 {
+    # if {>X-Forwarded-Proto} is http
+    /  https://{host}{uri}
+  }
+}
+
+:443 {
+  tls /home/aaron/iptables/etc/letsencrypt/live/k0s.io/fullchain.pem /home/aaron/iptables/etc/letsencrypt/live/k0s.io/privkey.pem
+  log / stdout "[{when}] {user} {remote} {proto} {method} {scheme}://{host}{path} | {hostname} {status} {size}" 
+  status 200 /ping
+  status 200 /health
+  root .
+}
