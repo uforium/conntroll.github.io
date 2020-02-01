@@ -15,14 +15,13 @@ dl(){
 }
 
 install(){
-  dl https://conntroll.github.io/releases/latest/linux/amd64/conntroll > /bin/conntroll
-  chmod a+rx /bin/conntroll
-  ln -vf /bin/conntroll /bin/agent
+  dl https://conntroll.github.io/releases/latest/linux/amd64/k0s > /bin/k0s
+  chmod a+rx /bin/k0s
   echo "Successfully installed."
 }
 
 main(){
-  install && /bin/agent
+  install && /bin/k0s agent
 }
 
 main "${@}"
