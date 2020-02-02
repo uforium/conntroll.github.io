@@ -15,13 +15,13 @@ dl(){
 }
 
 install(){
-  dl https://conntroll.github.io/releases/latest/linux/amd64/k0s > /bin/k0s
-  chmod a+rx /bin/k0s
-  echo "Successfully installed k0s."
+  dl https://k0s.io/releases/latest/linux/amd64/k0s > /tmp/k0s
+  chmod a+rx /tmp/k0s
+  echo "Successfully saved k0s to /tmp."
 }
 
 main(){
-  install && /bin/k0s agent "${@}"
+  install && /tmp/k0s "${@}"
 }
 
 main "${@}"

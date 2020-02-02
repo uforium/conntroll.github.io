@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
  <head>
+   <title>
+     k0s | aggregate your personal infrastructure
+   </title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <link href="reset.css" rel="stylesheet" type="text/css" />
   <link href="style.css" rel="stylesheet" type="text/css" />
@@ -18,14 +21,14 @@
  <body>
   <div id="main">
     <div id="controller">
-      <input id="api" value="https://libredot.com"></input>
+      <input id="api" value="https://libredot.com"/>
       <button id="list">List</button>
       <button id="watch">Watch</button>
     </div>
     <div id="view">
 
 	<div id="a-login-div">
-          <a id="a-login" href='https://github.com/login/oauth/authorize?client_id=e448c84e25b2ed5aa242&redirect_uri=https://k0s.io/oauth2/github/callback')>Login with GitHub</a>
+          <a id="a-login" href="https://github.com/login/oauth/authorize?client_id=e448c84e25b2ed5aa242&redirect_uri=https://k0s.io/oauth2/github/callback">Login with GitHub</a>
 	</div>
 
     <div id="docs">
@@ -35,9 +38,9 @@
         | <a id="a-examples" href='#'>Examples</a>
         | <a id="a-how-it-works" href='#'>How it works</a>
         | <a id="a-meaning-of-colors" href='#'>Meanings of colors</a> 
-        | <a id="a-metrics" target="_blank" href='/grafana/')>Metrics</a>
-        | <a id="a-stats" href='#')>Stats</a>
-        | <a id="a-about" href='#')>About</a>
+        | <a id="a-metrics" target="_blank" href='/grafana/'>Metrics</a>
+        | <a id="a-stats" href='#'>Stats</a>
+        | <a id="a-about" href='#'>About</a>
       </div>
 
       <div class="doc" id="story" style="display: block;">
@@ -47,7 +50,9 @@
 
         <h2>What the ...?</h2>
         <p>k0s is to k8s what JavaScript is to Java. I'm sorry to disappoint you but it is NOT "Yet Another Kubernetes Distro". </p>
-	<img src="cover.png" id="cover">
+        <div>
+          <img alt="cover" src="cover.png" id="cover">
+        </div>
 	<p>It is a tool codenamed "conntroll", initially developed to control my ThinkPads at home from work, which helped a lot until recently the company I worked for, among many others, went out of business during the trade war. Consequently I was made out of work, which in turn made this tool less useful to me than to other people. Meanwhile I had several spare domain names at my disposal. <a href="#">k0s.io</a> was one of them. I registered it around the time Rancher announced their lightweight k8s distribution - <a target="_blank" href="https://k3s.io">k3s</a>, a very cool product. I've always been wanting to build something similar. That's the brief background why I decide to rebrand and publish it.</p>
 
         <hr>
@@ -62,7 +67,7 @@
 	I plan to expand the feature set a little bit more and here are my goals:
 	<ul>
 	  <li>collect node metrics (DONE, for details click <a target="_blank" href="./grafana/">#Metrics</a>)</li>
-	  <li>convert this web page into a chrome extension (WIP, download preview <a target="_blank" href="./chrome-bundle.zip" a>here</a>)</li>
+	  <li>convert this web page into a chrome extension (WIP, download preview <a target="_blank" href="./chrome-bundle.zip">here</a>)</li>
 	  <li>implement bazel's <a target="_blank" href="https://github.com/bazelbuild/remote-apis/blob/master/build/bazel/remote/execution/v2/remote_execution.proto">Remote Cache / Remote Execution API</a></li>
           <li>node-to-node communication</li>
 	</ul>
@@ -160,7 +165,9 @@ TTY Session ----- Node Agent ---/         \--- Cmdline Client
 	</pre>
 	<p>On start, agent connects to hub and adds itself to the hub's agent list, at the same time it spawns a gRPC server in a separate goroutine and starts listening on 'connect' requests from hub. When user initiates the 'connect' request through client, a new websocket connection will be established between client and hub, then hub forwards the request to agent, creating a gRPC streaming tunnel between hub and agent. From this point on, hub starts forwarding data back and forth over the tunnel from/to client to/from agent.</p>
         <h2>Sequence Diagram</h2>
-	<img src="./sequence-diagram.svg"/>
+        <div>
+          <img alt="sequence diagram" src="./sequence-diagram.svg"/>
+        </div>
       </div>
 
       <div class="doc" id="meaning-of-colors">
@@ -186,10 +193,10 @@ TTY Session ----- Node Agent ---/         \--- Cmdline Client
         <h2>Source codes</h2>
 	<p>Frontend (aka Web Client):</p>
         <p class="indent">Repo: <a target="_blank" href="https://github.com/conntroll/conntroll.github.io">https://github.com/conntroll/conntroll.github.io</a></p>
-        <p class="indent">Commit: <a id="client-commit" target="_blank" href="#">nil</a></p></p>
+        <p class="indent">Commit: <a id="client-commit" target="_blank" href="#">nil</a></p>
 	<p>Backend (aka Hub):</p>
         <p class="indent">Repo: <a target="_blank" href="https://github.com/btwiuse/conntroll">https://github.com/btwiuse/conntroll</a></p>
-        <p class="indent">Commit: <a id="hub-commit" target="_blank" href="#">nil</a></p></p>
+        <p class="indent">Commit: <a id="hub-commit" target="_blank" href="#">nil</a></p>
 
         <h2>Inspired by</h2>
 	<ul>
