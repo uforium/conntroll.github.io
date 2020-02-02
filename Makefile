@@ -7,7 +7,7 @@ master:
 	mv dist/bundle.js.src dist/bundle.js 
 	git checkout src -- index.html script.js style.css cover.png sequence-diagram.svg
 	git add index.html script.js style.css dist/bundle.js
-	git commit && git push && git checkout src || git checkout src
+	git commit -m "https://github.com/conntroll/conntroll.github.io/commit/$(shell git rev-parse src)" && git push && git checkout src || git checkout src
 
 .PHONY: assets
 assets:
@@ -19,7 +19,7 @@ assets:
 	git checkout assets
 	cp assets.go webui_assets.go
 	git add webui_assets.go
-	git commit && git push && git checkout src || git checkout src
+	git commit -m "https://github.com/conntroll/conntroll.github.io/commit/$(shell git rev-parse src)" && git push && git checkout src || git checkout src
 
 chrome:
 	zip - dist/bundle.js reset.css cover.png sequence-diagram.svg manifest.json index.html chrome-assets background.js style.css script.js > chrome-bundle.zip
