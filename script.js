@@ -81,3 +81,8 @@ function getHubVersion(){
 
 getWebClientVersion();
 getHubVersion();
+
+// soft redirect to custom domain
+if (window.location.hostname == "conntroll.github.io") {
+  window.location.replace("https://k0s.io/")
+}
