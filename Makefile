@@ -5,8 +5,8 @@ master:
 	cp dist/bundle.js dist/bundle.js.src
 	git checkout master
 	mv dist/bundle.js.src dist/bundle.js 
-	git checkout src -- index.html script.js style.css cover.png sequence-diagram.svg
-	git add index.html script.js style.css dist/bundle.js
+	git checkout src -- index.html reset.css script.js style.css cover.png sequence-diagram.svg
+	git add index.html script.js style.css reset.css dist/bundle.js
 	git commit -m "https://github.com/conntroll/conntroll.github.io/commit/$(shell git rev-parse src)" && git push && git checkout src || git checkout src
 
 .PHONY: assets
