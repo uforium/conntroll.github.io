@@ -2,9 +2,8 @@ var defaultAPIHost = "hub.k0s.io";
 var defaultAPI = "https://"+defaultAPIHost;
 var isExtension : boolean = ((<any>window).chrome && (<any>window).chrome.runtime && (<any>window).chrome.runtime.id);
 var isGitHubPage : boolean = (window.location.host == "conntroll.github.io");
-var isK0sio : boolean = (window.location.host.endsWith("k0s.io"));
+var isK0sio : boolean = (window.location.host == "k0s.io");
 var shouldUseDefaultAPI : boolean = isExtension || isGitHubPage || isK0sio;
-
 
 function autoAPIURL() {
   let inputElem : HTMLInputElement = <HTMLInputElement>document.getElementById("api");

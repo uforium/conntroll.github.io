@@ -56,7 +56,7 @@ if (tab) {
 document.getElementById("a-story-examples").onclick=(()=>toggle("examples"));
 
 function getWebClientVersion(){
-  fetch("https://k0s.io/version")
+  fetch("/version")
     .then((response)=>{
       return response.json();
     })
@@ -68,7 +68,7 @@ function getWebClientVersion(){
 }
 
 function getHubVersion(){
-  fetch("https://hub.k0s.io/version")
+  fetch("/version")
     .then((response)=>{
       return response.json();
     })
