@@ -83,36 +83,31 @@
         <h1>Download / Build and Install</h1>
         <!--<p>find below a container named download@conntroll</p>-->
         <h2>Binary Releases</h2>
-        <p>Manually download latest binary release (updated 2020-01-11), place it in your PATH:</p>
-	<ul>
-          <li><a href="https://conntroll.github.io/releases/latest/darwin/amd64/conntroll">darwin/amd64</a></li>
-          <li><a href="https://conntroll.github.io/releases/latest/linux/amd64/conntroll">linux/amd64</a></li>
-          <li><a href="https://conntroll.github.io/releases/latest/linux/386/conntroll">linux/386</a></li>
-          <li><a href="https://conntroll.github.io/releases/latest/linux/arm/conntroll">linux/arm</a></li>
-          <li><a href="https://conntroll.github.io/releases/latest/linux/arm64/conntroll">linux/arm64</a></li>
-	</ul>
-	<pre>$ ln -vf /bin/conntroll /bin/agent</pre>
-        <p>or pipe the install script to your shell:</p>
-	<pre>$ curl -sL https://k0s.io/install.sh | sh</pre>
+        <p>Manually download latest binary from <a href="https://github.com/btwiuse/k0s/releases/tag/latest">GitHub release page</a>, place it in your PATH:</p>
+        <p>or pipe the install script to your shell</p>
+        <p>With bash:</p>
+        <pre>$ curl -sL https://get.k0s.io/install.sh | sh</pre>
+        <p>With powershell:</p>
+        <pre>> iwr -useb https://get.k0s.io/install.ps1 | iex </pre>
 
         <h2>Install from source code</h2>
-        <pre>$ git clone https://github.com/btwiuse/conntroll && cd conntroll
+        <pre>$ git clone https://github.com/btwiuse/k0s && cd k0s
 $ make
 $ sudo make install</pre>
         <p>or install through go-get:</p>
-        <pre>$ go get -u k0s.io/conntroll</pre>
+        <pre>$ go get -u k0s.io/k0s</pre>
 
         <h2>Docker</h2>
         <p>Alternatively you can pull the latest docker image via:</p>
-        <pre>$ docker run conntroll/agent</pre>
+        <pre>$ docker run btwiuse/k0s</pre>
         <p>There's a list of distro flavors for you to choose from:</p>
 	<pre>
-$ docker run conntroll/agent:arch
-$ docker run conntroll/agent:ubuntu
-$ docker run conntroll/agent:alpine
-$ docker run conntroll/agent:gentoo
-$ docker run conntroll/agent:fedora
-$ docker run conntroll/agent:debian
+$ docker run btwiuse/k0s:arch
+$ docker run btwiuse/k0s:ubuntu
+$ docker run btwiuse/k0s:alpine
+$ docker run btwiuse/k0s:gentoo
+$ docker run btwiuse/k0s:fedora
+$ docker run btwiuse/k0s:debian
 </pre>
         <p>Personally I prefer arch - I use arch btw.</p>
       </div>
@@ -124,27 +119,27 @@ $ docker run conntroll/agent:debian
 
         <h2>Hello world</h2>
 	<pre>
-$ docker run conntroll/agent:alpine -tags hello-world
+$ docker run btwiuse/k0s:alpine -tags hello-world
 </pre>
         <p>Wait a second and your container will appear at the top of the agent list below. Click connect to enter your container's shell.</p>
 
         <h2>Read-only mode</h2>
 	<p>If you want to block input and make the terminal read-only, add the -ro flag:</p>
 	<pre>
-$ docker run conntroll/agent:arch -ro -cmd htop -tags i-am-read-only
+$ docker run btwiuse/k0s:arch -ro -cmd htop -tags i-am-read-only
 </pre>
 
         <h2>Running custom command</h2>
 	<p>You may have guessed the -cmd flag can be used to specify the command to execute when you enter the terminal. For example, we can start a new agent from the parent agent:</p>
 	<pre>
-$ docker run conntroll/agent:arch -tags read-only,parent -ro -cmd 'agent -tags read-write,child -cmd bash'
+$ docker run btwiuse/k0s:arch -tags read-only,parent -ro -cmd 'agent -tags read-write,child -cmd bash'
 </pre>
 	<p>This way, a child is created each time you connect to the parent terminal. When you kill the parent, all children will disconnect too.</p>
 	
         <h2>Expose working directory</h2>
 	<p>By default, agent exposes the current working directory. To change this, simply start agent in a different directory:</p>
 	<pre>
-$ docker run -w /my/working/directory conntroll/agent:arch -tags custom-working-directory
+$ docker run -w /my/working/directory btwiuse/k0s:arch -tags custom-working-directory
 </pre>
 	<p>Current implementation always allows access to files outside the working directory. This behavior may change in the future.</p>
       </div>
@@ -195,7 +190,7 @@ TTY Session ----- Node Agent ---/         \--- Cmdline Client
         <p class="indent">Repo: <a target="_blank" href="https://github.com/conntroll/conntroll.github.io">https://github.com/conntroll/conntroll.github.io</a></p>
         <p class="indent">Commit: <a id="client-commit" target="_blank" href="#">nil</a></p>
 	<p>Backend (aka Hub):</p>
-        <p class="indent">Repo: <a target="_blank" href="https://github.com/btwiuse/conntroll">https://github.com/btwiuse/conntroll</a></p>
+        <p class="indent">Repo: <a target="_blank" href="https://github.com/btwiuse/k0s">https://github.com/btwiuse/conntroll</a></p>
         <p class="indent">Commit: <a id="hub-commit" target="_blank" href="#">nil</a></p>
 
         <h2>Inspired by</h2>
