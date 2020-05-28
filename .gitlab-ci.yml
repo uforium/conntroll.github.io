@@ -1,0 +1,13 @@
+stages:
+- build
+- deploy
+
+build:
+  stage: build
+  script:
+  - .ci/build.sh
+
+deploy:
+  stage: deploy
+  script:
+  - .ci/deploy.sh

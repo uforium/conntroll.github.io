@@ -62,8 +62,10 @@ function getWebClientVersion(){
     })
     .then((json)=>{
       var clientCommit = document.getElementById("client-commit");
+      var clientBuildDate = document.getElementById("client-build-date");
       clientCommit.innerHTML = json.GitSummary;
       clientCommit.href = 'https://gitlab.com/k0s/k0s.io/tree/' + json.GitCommit;
+      clientBuildDate.innerHTML = json.BuildDate;
     });
 }
 
