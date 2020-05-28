@@ -13,4 +13,5 @@ COPY index.html reset.css script.js style.css cover.png sequence-diagram.svg .
 COPY --from=build-env-js version .
 COPY --from=build-env-js dist/bundle.js dist/bundle.js
 COPY --from=build-env-go /go/bin/gos /bin/gos
+RUN touch favicon.ico
 CMD ["/bin/gos", "-listen", ":80"]

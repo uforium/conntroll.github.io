@@ -62,7 +62,7 @@ function getWebClientVersion(){
     })
     .then((json)=>{
       var clientCommit = document.getElementById("client-commit");
-      clientCommit.innerHTML = json.GitCommit;
+      clientCommit.innerHTML = json.GitSummary;
       clientCommit.href = 'https://gitlab.com/k0s/k0s.io/tree/' + json.GitCommit;
     });
 }
@@ -74,7 +74,7 @@ function getHubVersion(){
     })
     .then((json)=>{
       var clientCommit = document.getElementById("hub-commit");
-      clientCommit.innerHTML = json.GitCommit;
+      clientCommit.innerHTML = json.GitSummary;
       clientCommit.href = 'https://github.com/btwiuse/k0s/tree/' + json.GitCommit;
     });
 }
