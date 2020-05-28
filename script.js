@@ -63,19 +63,19 @@ function getWebClientVersion(){
     .then((json)=>{
       var clientCommit = document.getElementById("client-commit");
       clientCommit.innerHTML = json.GitCommit;
-      clientCommit.href = 'https://github.com/conntroll/conntroll.github.io/tree/' + json.GitCommit;
+      clientCommit.href = 'https://gitlab.com/k0s/k0s.io/tree/' + json.GitCommit;
     });
 }
 
 function getHubVersion(){
-  fetch("/version")
+  fetch("/api/version")
     .then((response)=>{
       return response.json();
     })
     .then((json)=>{
       var clientCommit = document.getElementById("hub-commit");
       clientCommit.innerHTML = json.GitCommit;
-      clientCommit.href = 'https://github.com/btwiuse/conntroll/tree/' + json.GitCommit;
+      clientCommit.href = 'https://github.com/btwiuse/k0s/tree/' + json.GitCommit;
     });
 }
 
