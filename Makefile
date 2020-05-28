@@ -1,6 +1,7 @@
 all:
 	./node_modules/.bin/webpack
 
+.PHONY: version
 version:
 	./update-version
 
