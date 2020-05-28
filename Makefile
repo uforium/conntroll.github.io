@@ -1,6 +1,9 @@
 all:
 	./node_modules/.bin/webpack
 
+version:
+	./update-version
+
 master:
 	cp dist/bundle.js dist/bundle.js.src
 	git checkout master
